@@ -1,38 +1,96 @@
-.App {
-  text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+
+body {
+  font-family: "Space Grotesk", sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
+input{
+  outline: none;
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+}
+img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+@layer components {
+  .flex-center {
+    @apply flex justify-center items-center;
   }
 }
+@layer utilities {
+  .flex-between {
+    @apply flex justify-between;
+  }
+  .container {
+    @apply mx-auto max-w-[1310px] w-full;
+  }
+  .sec-pad-x{
+    @apply lg:px-[48px] md:px-[34px] px-[20px];
+  }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  .sec-pad-y{
+    @apply lg:py-[48px] md:py-[34px] py-[20px];
+  }
+
+  .f-col {
+    @apply flex flex-col;
+  }
+  .nav-link {
+    @apply text-white  md:text-base  text-sm md:font-semibold font-medium  hover:text-dark-primary transition-all cursor-pointer capitalize;
+  }
+  .nav-icon {
+    @apply md:w-[25px] w-[20px] md:h-[25px] h-[20px] fill-current bg-dark-primary cursor-pointer rounded-full text-sm flex-center text-white;
+  }
+  .btn-border {
+    @apply rounded-[96px] bg-light-primary shadow-primary p-[3px] bg-custom-gradiant;
+  }
+  .btn-inner {
+    @apply rounded-[96px] py-[08px] px-[24px] bg-light-primary;
+  }
+  .btn-inner-0 {
+    @apply rounded-[96px] bg-light-primary;
+  }
+ 
+  .tab{
+    @apply text-white inline-flex items-center rounded-tl-[96px] rounded-bl-[96px] bg-light-secondary h-full cursor-pointer  text-xs font-bold p-[8px]
+  
+  }
+  .tab-no-radius{
+    @apply text-white inline-flex items-center bg-light-secondary h-full p-[8px]
+    text-xs font-bold cursor-pointer
+  }
+  .tab-r{
+    @apply text-white inline-flex items-center rounded-tr-[96px] rounded-br-[96px] bg-light-secondary h-full text-xs font-bold p-[8px] cursor-pointer
+  }
+  .card-input{
+    @apply w-full p-0.5 border-none md:text-base text-sm font-bold text-black
+  }
+}
+.react-tabs__tab--selected >.tab,
+.react-tabs__tab--selected >.tab-no-radius,
+.react-tabs__tab--selected >.tab-r{
+  @apply bg-dark-primary;
 }
 
-.App-link {
-  color: #61dafb;
+.react-tabs__tab-panel--selected{
+  width: 100%;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.blob-bg{
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: repeat;
+    background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%3E%3ClinearGradient id=%22b%22%3E%3Cstop offset=%220%25%22 stop-color=%22%23e58f17%22%2F%3E%3Cstop offset=%22100%25%22 stop-color=%22%23e86c2e%22%2F%3E%3C%2FlinearGradient%3E%3CclipPath id=%22a%22%3E%3Cpath fill=%22currentColor%22 d=%22M762 618Q636 736 502 732T191 614Q14 500 162 335.5T529 121q219-50 289 164.5T762 618Z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg clip-path=%22url(%23a)%22%3E%3Cpath fill=%22url(%23b)%22 d=%22M762 618Q636 736 502 732T191 614Q14 500 162 335.5T529 121q219-50 289 164.5T762 618Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  
 }
