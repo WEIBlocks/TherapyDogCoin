@@ -11,7 +11,7 @@ const Layout = () => {
     const [isOpen, setIsOpen] = useState(false)
   return (
     <>
-      <header className="bg-primary sticky top-0 z-50">
+      <header className="bg-primary sticky top-0 z-50 shadow-xl">
         <div className="container flex-between items-center py-1 sec-pad-x ">
           <div className="flex items-center">
             <div className="lg:text-5xl md:text-4xl text-3xl text-dark-primary mr-2">
