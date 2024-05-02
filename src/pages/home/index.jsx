@@ -8,6 +8,7 @@ import { IoCopyOutline } from "react-icons/io5";
 import { services } from "../../data";
 import SectionHeading from "../../components/servicesComp/sectionHeading";
 import { images } from "../../assests";
+import MemberComp from "../../components/teamMember";
 
 const Home = () => {
   return (
@@ -295,7 +296,51 @@ const Home = () => {
           </div>
         </div>
       </div>
-      \{/* roadmap details  */}
+
+      {/* roadmap details  */}
+
+      {/* meetteam Section */}
+      <div className="bg-primary border-b-2 border-white">
+        <div className="container sec-pad-y sec-pad-x ">
+          <div className="flex gap-1 flex-col items-center">
+            <h1 className="lg:text-5xl md:text-4xl text-3xl font-black text-center text-white">
+              Meet team
+            </h1>
+
+            <div className=" max-w-[1180px] w-full lg:pt-[48px] md:pt-[34px] pt-[20px] flex flex-wrap justify-center items-center gap-1">
+              <MemberComp
+                name="Name"
+                desigination="desigantin"
+                profilePic={images.TeamMember}
+              />
+              <MemberComp
+                name="Name"
+                desigination="desigantin"
+                profilePic={images.TeamMember}
+              />
+              <MemberComp
+                name="Name"
+                desigination="desigantin"
+                profilePic={images.TeamMember}
+              />
+              <MemberComp
+                name="Name"
+                desigination="desigantin"
+                profilePic={images.TeamMember}
+              />
+              <MemberComp
+                name="Name"
+                desigination="desigantin"
+                profilePic={images.TeamMember}
+              />
+             
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* meetteam Section */}
+
+
     </>
   );
 };
