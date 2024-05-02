@@ -111,9 +111,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-
       {/* hero section */}
-
       {/* services section */}
       <div className="container sec-pad-y">
         <div className="flex flex-col gap-1">
@@ -144,7 +142,6 @@ const Home = () => {
         </div>
       </div>
       {/* services section */}
-
       {/* about section */}
       <div className="container sec-pad-y sect-pad-x">
         <div className="flex gap-1 flex-col items-center">
@@ -215,7 +212,6 @@ const Home = () => {
         </div>
       </div>
       {/* about section */}
-
       {/* RXDOG tokenomics */}
       <div className="bg-primary">
         <div className="container sec-pad-y sec-pad-x">
@@ -231,7 +227,6 @@ const Home = () => {
         </div>
       </div>
       {/* RXDOG tokenomics */}
-
       {/* Contract details  */}
       <div className="container sec-pad-y sec-pad-x">
         <div className="flex md:gap-1.5 gap-1 md:flex-row flex-col items-center">
@@ -251,7 +246,9 @@ const Home = () => {
                   Contract address:
                 </h4>
                 <div className="flex gap-[5px] items-center md:text-base text-sm md:font-bold font-semibold ">
-                  <span className="text-wrap break-words break-all">0x4C2e29dbc437C4b781963E5B2B393b1D4ea64b19</span>
+                  <span className="text-wrap break-words break-all">
+                    0x4C2e29dbc437C4b781963E5B2B393b1D4ea64b19
+                  </span>
                   <span>
                     <IoCopyOutline />
                   </span>
@@ -283,8 +280,22 @@ const Home = () => {
           </div>
         </div>
       </div>
-
       {/* Contract details  */}
+      {/* roadmap details  */}
+      <div className="bg-[#06163D]">
+        <div className="container sec-pad-y sec-pad-x">
+          <div className="flex gap-1 flex-col items-center">
+            <h1 className="lg:text-5xl md:text-4xl text-3xl font-black text-center text-white">
+              Roadmap
+            </h1>
+
+            <div className=" max-w-[880px] w-full lg:pt-[48px] md:pt-[34px] pt-[20px]">
+              <img src={images.Roadmap} alt="roadmp" />
+            </div>
+          </div>
+        </div>
+      </div>
+      \{/* roadmap details  */}
     </>
   );
 };
