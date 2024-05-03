@@ -42,14 +42,15 @@ module.exports = {
       },
       colors: {
         
-        "primary-transparent": "rgba(232, 108, 46, 0.7)",
+        "primary-transparent": "#F66C02",
 
         "primary": "#e86c2e",
         "dark-primary": "#608cf7",
         "light-primary": "#BCE1F3",
-        "secondary":"#608cf7",
-        "dark-secondary": "#FF0808",
-        "light-secondary": "#FFB3B3",
+        "secondary":"#06163D",
+        "dark-secondary": "#2761ef ",
+        // "light-secondary": "#04182b ",
+        "light-secondary": "#2761ef  ",
       },
       boxShadow: {
         primary: "0 12px 24px 0 rgba(15,8,35,.3)",

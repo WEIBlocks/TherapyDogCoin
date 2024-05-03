@@ -64,10 +64,10 @@ const Layout = () => {
       <div>
         <Outlet />
       </div>
-      <footer className="bg-primary">
+      <footer className="bg-secondary">
         <div className="container">
           <div className="flex flex-col md:gap-1.5 gap-1 text-center">
-            <div className="flex md:flex-row flex-col gap-1 justify-between items-center border-b-2 border-white lg:mx-[48px] md:mx-[34px] mx-[20px] lg:py-[20px] md:py-[17px] py-[15px]">
+            <div className="flex md:flex-row flex-col gap-1 justify-between items-center border-b-2 border-primary lg:mx-[48px] md:mx-[34px] mx-[20px] lg:py-[20px] md:py-[17px] py-[15px]">
               <div className="flex items-center">
                 <div className="md:text-4xl text-3xl  text-dark-primary mr-2">
                   <SiBnbchain />

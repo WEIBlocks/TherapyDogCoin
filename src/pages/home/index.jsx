@@ -15,7 +15,7 @@ const Home = () => {
     <>
       {/* hero section */}
       <div className="bg-hero-pattern primary-transparent bg-no-repeat bg-cover bg-fixed ">
-        <div className="bg-primary-transparent">
+        <div className="bg-secondary">
           <div className="container  sec-pad-x sec-pad-y ">
             <div className="flex md:flex-row flex-col gap-1 items-center">
               <div className="flex flex-col items-start gap-1 md:w-1/2 w-full">
@@ -29,7 +29,7 @@ const Home = () => {
                 </p>
               </div>
               <div className="md:w-1/2 w-full flex md:justify-end  justify-center">
-                <div className="max-w-[380px] w-full bg-primary md:p-[20px] p-[15px] rounded-xl flex flex-col gap-1">
+                <div className="max-w-[380px] w-full bg-light-secondary md:p-[20px] p-[15px] rounded-xl flex flex-col gap-1">
                   <div className="flex justify-between">
                     <h3 className="md:text-lg text-base font-bold text-white ">
                       TherapyDogCoin RXDOG for $0.0001
@@ -113,36 +113,7 @@ const Home = () => {
         </div>
       </div>
       {/* hero section */}
-      {/* services section */}
-      <div className="container sec-pad-y">
-        <div className="flex flex-col gap-1">
-          <SectionHeading heading="TherapyDogCoin services" />
 
-          {/* <div className="lg:rounded-tl-3xl md:rounded-tl-lg rounded-tl-md lg:rounded-tr-3xl md:rounded-tr-lg rounded-tr-md relative overflow-hidden lg:h-[640px] md:h-[540px] h-[440px] w-full flex flex-col justify-between border-primary border-[3px] ">
-            <div className="lg:p-1 md:p-0.10 p-0.75 bg-primary flex justify-between">
-              <div className="flex items-center">
-                <div className="lg:text-3xl md:text-2xl text-xl text-dark-primary mr-1">
-                  <SiBnbchain />
-                </div>
-                <h2 className="md:text-lg  text-base text-white font-semibold capitalize text-nowrap ">
-                  task chain
-                </h2>
-              </div>
-              <div className="flex gap-1 items-center">
-                <span className="nav-link">Outpatient</span>
-                <span className="nav-link">Inpatient</span>
-                <span className="nav-link">Intesnive outpatient</span>
-              </div>
-            </div> */}
-          <div className="sec-pad-x sec-pad-y flex gap-1 justify-center flex-wrap">
-            {services.map((service) => (
-              <ServicesComp key={service.id} service={service} />
-            ))}
-          </div>
-          {/* </div> */}
-        </div>
-      </div>
-      {/* services section */}
       {/* about section */}
       <div className="container sec-pad-y sect-pad-x">
         <div className="flex gap-1 flex-col items-center">
@@ -213,8 +184,39 @@ const Home = () => {
         </div>
       </div>
       {/* about section */}
+
+      {/* services section */}
+      <div className="container sec-pad-y">
+        <div className="flex flex-col gap-1">
+          <SectionHeading heading="TherapyDogCoin services" />
+
+          {/* <div className="lg:rounded-tl-3xl md:rounded-tl-lg rounded-tl-md lg:rounded-tr-3xl md:rounded-tr-lg rounded-tr-md relative overflow-hidden lg:h-[640px] md:h-[540px] h-[440px] w-full flex flex-col justify-between border-primary border-[3px] ">
+            <div className="lg:p-1 md:p-0.10 p-0.75 bg-primary flex justify-between">
+              <div className="flex items-center">
+                <div className="lg:text-3xl md:text-2xl text-xl text-dark-primary mr-1">
+                  <SiBnbchain />
+                </div>
+                <h2 className="md:text-lg  text-base text-white font-semibold capitalize text-nowrap ">
+                  task chain
+                </h2>
+              </div>
+              <div className="flex gap-1 items-center">
+                <span className="nav-link">Outpatient</span>
+                <span className="nav-link">Inpatient</span>
+                <span className="nav-link">Intesnive outpatient</span>
+              </div>
+            </div> */}
+          <div className="sec-pad-x sec-pad-y flex gap-1 justify-center flex-wrap">
+            {services.map((service) => (
+              <ServicesComp key={service.id} service={service} />
+            ))}
+          </div>
+          {/* </div> */}
+        </div>
+      </div>
+      {/* services section */}
       {/* RXDOG tokenomics */}
-      <div className="bg-primary">
+      <div className="bg-secondary">
         <div className="container sec-pad-y sec-pad-x">
           <div className="flex gap-1 flex-col items-center">
             <h1 className="lg:text-5xl md:text-4xl text-3xl font-black text-center text-white">
@@ -241,7 +243,7 @@ const Home = () => {
             </p>
           </div>
           <div className="grid grid-cols-3 gap-1 md:w-[60%] w-full">
-            <div className="col-span-3 md:p-[24px] p-1 bg-primary text-white md:rounded-2xl rounded-xl">
+            <div className="col-span-3 md:p-[24px] p-1 bg-secondary text-white md:rounded-2xl rounded-xl">
               <div className="flex flex-col gap-0.75 ">
                 <h4 className="md:text-xl text-lg md:font-bold font-semibold">
                   Contract address:
@@ -260,19 +262,19 @@ const Home = () => {
                 </p>
               </div>
             </div>
-            <div className="md:p-[24px] p-1 bg-primary md:rounded-2xl rounded-xl md:col-span-1 col-span-3 text-white">
+            <div className="md:p-[24px] p-1 bg-secondary md:rounded-2xl rounded-xl md:col-span-1 col-span-3 text-white">
               <div className="flex flex-col gap-0.75 items-start md:text-base text-sm md:font-bold font-semibold ">
                 <span>Decimals:</span>
                 <span>18</span>
               </div>
             </div>
-            <div className="md:p-[24px] p-1 bg-primary md:rounded-2xl rounded-xl md:col-span-1 col-span-3 text-white">
+            <div className="md:p-[24px] p-1 bg-secondary md:rounded-2xl rounded-xl md:col-span-1 col-span-3 text-white">
               <div className="flex flex-col gap-0.75 items-start md:text-base text-sm md:font-bold font-semibold ">
                 <span>Network:</span>
                 <span>Ethereum</span>
               </div>
             </div>
-            <div className="md:p-[24px] p-1 bg-primary md:rounded-2xl rounded-xl md:col-span-1 col-span-3 text-white">
+            <div className="md:p-[24px] p-1 bg-secondary md:rounded-2xl rounded-xl md:col-span-1 col-span-3 text-white">
               <div className="flex flex-col gap-0.75 items-start md:text-base text-sm md:font-bold font-semibold ">
                 <span>Token symbol:</span>
                 <span>RXDOG</span>
@@ -283,7 +285,7 @@ const Home = () => {
       </div>
       {/* Contract details  */}
       {/* roadmap details  */}
-      <div className="bg-[#06163D]">
+      <div className="bg-[#06163D] border-b-2 border-primary">
         <div className="container sec-pad-y sec-pad-x">
           <div className="flex gap-1 flex-col items-center">
             <h1 className="lg:text-5xl md:text-4xl text-3xl font-black text-center text-white">
@@ -300,10 +302,10 @@ const Home = () => {
       {/* roadmap details  */}
 
       {/* meetteam Section */}
-      <div className="bg-primary border-b-2 border-white">
+      <div className="bg-secondary border-b-2 border-primary">
         <div className="container sec-pad-y sec-pad-x ">
           <div className="flex gap-1 flex-col items-center">
-            <h1 className="lg:text-5xl md:text-4xl text-3xl font-black text-center text-white">
+            <h1 className="lg:text-5xl md:text-4xl text-3xl font-black text-center text-primary">
               Meet team
             </h1>
 
@@ -333,14 +335,11 @@ const Home = () => {
                 desigination="desigantin"
                 profilePic={images.TeamMember}
               />
-             
             </div>
           </div>
         </div>
       </div>
       {/* meetteam Section */}
-
-
     </>
   );
 };

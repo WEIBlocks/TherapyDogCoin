@@ -4,7 +4,7 @@ const MemberComp = ({name,desigination,profilePic}) => {
   return (
     <>
       <div className="rounded-full min-w-[240px] p-[20px] flex flex-col md:gap-0.5 gap-1 goverflow-hidden items-center ">
-        <div className="w-[140px] h-full object-cover rounded-full border-4 border-secondary ">
+        <div className="w-[140px] h-full object-cover rounded-full border-[5px] border-primary ">
           <img
             src={profilePic}
             alt="teammember"
