@@ -9,6 +9,7 @@ import { services } from "../../data";
 import SectionHeading from "../../components/servicesComp/sectionHeading";
 import { images } from "../../assests";
 import MemberComp from "../../components/teamMember";
+import TintHeading from "../../components/servicesComp/sectionHeading/tintHeading";
 
 const Home = () => {
   return (
@@ -19,7 +20,7 @@ const Home = () => {
           <div className="container  sec-pad-x sec-pad-y ">
             <div className="flex md:flex-row flex-col gap-1 items-center">
               <div className="flex flex-col items-start gap-1 md:w-1/2 w-full">
-                <h1 className="lg:text-4xl md:text-3xl text-2xl font-black text-white">
+                <h1 className="lg:text-5xl md:text-4xl text-4xl font-black text-white">
                   The world first use of blockchain technology to increase
                   mental health awareness
                 </h1>
@@ -57,15 +58,13 @@ const Home = () => {
                         <TabList>
                           <div className=" text-nowrap   flex flex-wrap ">
                             <Tab>
-                              <div className="tab">Week 1 and 2</div>
+                              <div className="tab">Stage 1</div>
                             </Tab>
                             <Tab>
-                              <span className="tab-no-radius">
-                                Week 3 and 4
-                              </span>
+                              <span className="tab-no-radius">Stage 2</span>
                             </Tab>
                             <Tab>
-                              <span className="tab-r"> Week 5 and 6</span>
+                              <span className="tab-r">Stage 3</span>
                             </Tab>
                           </div>
                         </TabList>
@@ -117,11 +116,11 @@ const Home = () => {
       {/* about section */}
       <div className="container sec-pad-y sect-pad-x">
         <div className="flex gap-1 flex-col items-center">
-          <SectionHeading heading="About TherapyDogCoin" />
+          <SectionHeading heading="About TherapyDogCoin" effect={"Therapy"} />
           <div className="flex md:flex-row flex-col   md:p-1 p-0.1  items-center gap-1">
             <div className="md:w-1/2 w-full ">
               <div className="max-w-[440px] w-full">
-                <p className="md:text-xl text-lg font-medium ">
+                <p className="md:text-xl text-lg font-medium text-grey">
                   Therapydogcoin is a blockchain based system to reform mental
                   healthcare and in the future healthcare insurance to be fair
                   and dignified.
@@ -143,7 +142,7 @@ const Home = () => {
               </div>
               <div className="md:w-1/2 w-full ">
                 <div className="max-w-[440px] w-full">
-                  <p className="md:text-xl text-lg font-medium ">
+                  <p className="md:text-xl text-lg font-medium text-grey">
                     We are real company with real futuristic roadmap. We build
                     community to create the change while we do the work on the
                     ground to help patients with mental health issues. With
@@ -162,7 +161,7 @@ const Home = () => {
                 About the company
               </h3>
               <div className="max-w-[440px] w-full">
-                <p className="md:text-xl text-lg font-medium ">
+                <p className="md:text-xl text-lg font-medium text-grey">
                   Over the past 24 months, Elevate has provided 17,939
                   individual psychiatry and therapy appointments to more than
                   1,800 clients. Of those, 48% were provided to individuals with
@@ -188,7 +187,10 @@ const Home = () => {
       {/* services section */}
       <div className="container sec-pad-y">
         <div className="flex flex-col gap-1">
-          <SectionHeading heading="TherapyDogCoin services" />
+          <SectionHeading
+            heading="TherapyDogCoin services"
+            effect={"services"}
+          />
 
           {/* <div className="lg:rounded-tl-3xl md:rounded-tl-lg rounded-tl-md lg:rounded-tr-3xl md:rounded-tr-lg rounded-tr-md relative overflow-hidden lg:h-[640px] md:h-[540px] h-[440px] w-full flex flex-col justify-between border-primary border-[3px] ">
             <div className="lg:p-1 md:p-0.10 p-0.75 bg-primary flex justify-between">
@@ -219,9 +221,11 @@ const Home = () => {
       <div className="bg-secondary">
         <div className="container sec-pad-y sec-pad-x">
           <div className="flex gap-1 flex-col items-center">
-            <h1 className="lg:text-5xl md:text-4xl text-3xl font-black text-center text-white">
+            <TintHeading heading="RXDOG tokenomics" effect={"tokenomics"} />
+
+            {/* <h1 className="lg:text-5xl md:text-4xl text-3xl font-black text-center text-white">
               RXDOG tokenomics
-            </h1>
+            </h1> */}
 
             <div className=" max-w-[880px] w-full lg:pt-[48px] md:pt-[34px] pt-[20px]">
               <img src={images.Graph} alt="graph" />
@@ -285,12 +289,13 @@ const Home = () => {
       </div>
       {/* Contract details  */}
       {/* roadmap details  */}
-      <div className="bg-[#06163D] border-b-2 border-primary">
+      <div className="bg-secondary border-b-2 border-primary">
         <div className="container sec-pad-y sec-pad-x">
           <div className="flex gap-1 flex-col items-center">
-            <h1 className="lg:text-5xl md:text-4xl text-3xl font-black text-center text-white">
+            <TintHeading heading="Roadmap" effect={"Roadmap"} />
+            {/* <h1 className="lg:text-5xl md:text-4xl text-3xl font-black text-center text-white">
               Roadmap
-            </h1>
+            </h1> */}
 
             <div className=" max-w-[880px] w-full lg:pt-[48px] md:pt-[34px] pt-[20px]">
               <img src={images.Roadmap} alt="roadmp" />
@@ -302,17 +307,18 @@ const Home = () => {
       {/* roadmap details  */}
 
       {/* meetteam Section */}
-      <div className="bg-secondary border-b-2 border-primary">
+      <div className="bg-white border-b-2 border-primary">
         <div className="container sec-pad-y sec-pad-x ">
           <div className="flex gap-1 flex-col items-center">
-            <h1 className="lg:text-5xl md:text-4xl text-3xl font-black text-center text-primary">
+            {/* <h1 className="lg:text-5xl md:text-4xl text-3xl font-black text-center text-primary">
               Meet team
-            </h1>
+            </h1> */}
+            <SectionHeading heading="Meet team" effect={"Team"} />
 
             <div className=" max-w-[1180px] w-full lg:pt-[48px] md:pt-[34px] pt-[20px] flex flex-wrap justify-center items-center gap-1">
               <MemberComp
                 name="Name"
-                desigination="desigantin"
+                desigination="desigantion"
                 profilePic={images.TeamMember}
               />
               <MemberComp
@@ -330,11 +336,7 @@ const Home = () => {
                 desigination="desigantin"
                 profilePic={images.TeamMember}
               />
-              <MemberComp
-                name="Name"
-                desigination="desigantin"
-                profilePic={images.TeamMember}
-              />
+             
             </div>
           </div>
         </div>

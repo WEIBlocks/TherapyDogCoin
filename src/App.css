@@ -62,7 +62,7 @@ img {
   }
  
   .tab{
-    @apply text-white inline-flex items-center rounded-tl-[96px] rounded-bl-[96px] bg-primary-transparent h-full cursor-pointer  text-xs font-bold p-[8px]
+    @apply text-white inline-flex items-center rounded-tl-[96px] rounded-bl-[96px] bg-primary-transparent h-full cursor-pointer  text-xs font-bold p-[8px] outline-none focus:ring-0
   
   }
   .tab-no-radius{

@@ -49,8 +49,9 @@ module.exports = {
         "light-primary": "#BCE1F3",
         "secondary":"#06163D",
         "dark-secondary": "#2761ef ",
-        // "light-secondary": "#04182b ",
+        "tint-purple": "#0F3857 ",
         "light-secondary": "#2761ef  ",
+        grey:"#333333"
       },
       boxShadow: {
         primary: "0 12px 24px 0 rgba(15,8,35,.3)",

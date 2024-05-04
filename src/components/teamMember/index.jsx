@@ -12,10 +12,10 @@ const MemberComp = ({name,desigination,profilePic}) => {
           />
         </div>
 
-        <h4 className="lg:text-2xl md:text-xl text-lg md:font-bold font-semibold capitalize text-white">
+        <h4 className="lg:text-2xl md:text-xl text-lg md:font-bold font-semibold capitalize text-grey">
           {name}
         </h4>
-        <span className="lg:text-xl md:text-base text-sm md:font-semibold font-medium capitalize text-white">
+        <span className="lg:text-xl md:text-base text-sm md:font-semibold font-medium capitalize text-grey">
           {desigination}
         </span>
       </div>
