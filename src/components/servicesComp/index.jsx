@@ -7,7 +7,7 @@ const ServicesComp = ({ key, service }) => {
   return (
     <div
       key={key}
-      className="w-[340px]  border-2  bg-secondary text-white shadow-xl hover:shadow-2xl rounded-lg p-1 transition-all  cursor-pointer hover:-translate-y-3"
+      className="w-[340px]  border-2  bg-primary text-white shadow-xl hover:shadow-2xl rounded-lg p-1 transition-all  cursor-pointer hover:-translate-y-3"
     >
       <div className="flex justify-center flex-col  items-start gap-1 ">
         <div className="text-4xl">

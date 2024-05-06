@@ -20,9 +20,12 @@ const Home = () => {
           <div className="container  sec-pad-x sec-pad-y ">
             <div className="flex md:flex-row flex-col gap-1 items-center">
               <div className="flex flex-col items-start gap-1 md:w-1/2 w-full">
-                <h1 className="lg:text-5xl md:text-4xl text-4xl font-black text-white">
+                <h1 className="lg:text-5xl md:text-4xl text-4xl font-semibold text-white">
                   The world first use of blockchain technology to increase
-                  mental health awareness
+                  mental health awareness and{" "}
+                  <span className="text-primary font-black">
+                    access to treatment
+                  </span>
                 </h1>
                 <p className="md:text-xl text-lg font-medium text-white  ">
                   Provide real access to treatment for individuals with mental
@@ -38,10 +41,10 @@ const Home = () => {
                   </div>
                   <div className="f-col">
                     <p className="md:text-sm text-xs font-medium text-white ">
-                      Investment at $0.0001
+                      ICO at $0.0001
                     </p>
                     <p className="md:text-sm text-xs font-medium text-white ">
-                      Listing at $0.0001
+                      Listing at $0.001
                     </p>
                   </div>
                   <div className="relative before:absolute before:content-[' '] before:left-1/2 before:-translate-x-1/2 before:z-0 before:w-full before:h-[1px] before:bg-white before:m-auto"></div>
@@ -162,10 +165,6 @@ const Home = () => {
               </h3>
               <div className="max-w-[440px] w-full">
                 <p className="md:text-xl text-lg font-medium text-grey">
-                  Over the past 24 months, Elevate has provided 17,939
-                  individual psychiatry and therapy appointments to more than
-                  1,800 clients. Of those, 48% were provided to individuals with
-                  Medicaid/Husky benefits who are of lower socioeconomic means.
                   Our psychiatry team has provided MAT injections (Sublocade and
                   Vivitrol) to 389 clients with substance abuse issues and over
                   100 monthly oral MAT prescriptions. Additionally, we have
@@ -336,7 +335,6 @@ const Home = () => {
                 desigination="desigantin"
                 profilePic={images.TeamMember}
               />
-             
             </div>
           </div>
         </div>
