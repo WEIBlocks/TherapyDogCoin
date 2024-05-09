@@ -27,10 +27,14 @@ const Home = () => {
                     access to treatment
                   </span>
                 </h1>
-                <p className="md:text-xl text-lg font-medium text-white  ">
+                <p className="g:text-5xl md:text-4xl text-4xl font-semibold text-white  ">
                   Provide real access to treatment for individuals with mental
                   illness and addiction
                 </p>
+                {/* <p className="md:text-xl text-lg font-medium text-white  ">
+                  Provide real access to treatment for individuals with mental
+                  illness and addiction
+                </p> */}
               </div>
               <div className="md:w-1/2 w-full flex md:justify-end  justify-center">
                 <div className="max-w-[380px] w-full bg-light-secondary md:p-[20px] p-[15px] rounded-xl flex flex-col gap-1">
@@ -216,6 +220,7 @@ const Home = () => {
         </div>
       </div>
       {/* services section */}
+
       {/* RXDOG tokenomics */}
       <div className="bg-secondary">
         <div className="container sec-pad-y sec-pad-x">
@@ -233,6 +238,7 @@ const Home = () => {
         </div>
       </div>
       {/* RXDOG tokenomics */}
+
       {/* Contract details  */}
       <div className="container sec-pad-y sec-pad-x">
         <div className="flex md:gap-1.5 gap-1 md:flex-row flex-col items-center">
@@ -287,6 +293,7 @@ const Home = () => {
         </div>
       </div>
       {/* Contract details  */}
+
       {/* roadmap details  */}
       <div className="bg-secondary border-b-2 border-primary">
         <div className="container sec-pad-y sec-pad-x">
@@ -302,7 +309,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
       {/* roadmap details  */}
 
       {/* meetteam Section */}

@@ -7,6 +7,7 @@ import { SiBnbchain } from "react-icons/si";
 import { AiOutlineCloseSquare } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa6";
+import { images } from "../assests";
 
 const Layout = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,11 +17,11 @@ const Layout = () => {
       <header className="bg-primary sticky top-0 z-50 shadow-xl">
         <div className="container flex-between items-center py-1 sec-pad-x ">
           <div className="flex items-center">
-            <div className="lg:text-5xl md:text-4xl text-3xl text-dark-primary mr-2">
-              <SiBnbchain />
+            <div className="lg:w-[60px] lg:h-[60px] md:w-[50px] md:h-[50px] w-[40px] h-[40px] text-dark-primary mr-1">
+              <img src={images.brandLogo} alt="brandLogog" />
             </div>
             <h2 className="lg:text-2xl md:text-xl text-lg text-white font-semibold capitalize text-nowrap ">
-              task chain
+              TherapyDogCoin
             </h2>
           </div>
           <nav
@@ -69,11 +70,11 @@ const Layout = () => {
           <div className="flex flex-col md:gap-1.5 gap-1 text-center">
             <div className="flex md:flex-row flex-col gap-1 justify-between items-center border-b-2 border-primary lg:mx-[48px] md:mx-[34px] mx-[20px] lg:py-[20px] md:py-[17px] py-[15px]">
               <div className="flex items-center">
-                <div className="md:text-4xl text-3xl  text-dark-primary mr-2">
-                  <SiBnbchain />
+                <div className="lg:w-[50px] lg:h-[50px] md:w-[40px] md:h-[40px] w-[30px] h-[30px] text-dark-primary mr-1">
+                  <img src={images.brandLogo} alt="brandLogog" />
                 </div>
-                <h2 className="md:text-xl text-lg text-white font-semibold capitalize text-nowrap ">
-                  task chain
+                <h2 className="lg:text-2xl md:text-xl text-lg text-white font-semibold capitalize text-nowrap ">
+                  TherapyDogCoin
                 </h2>
               </div>
               <div className="flex md:gap-1 gap-[10px]">
@@ -103,7 +104,9 @@ const Layout = () => {
               may be subject to capital gains or other taxes applicable in your
               jurisdiction.
             </p>
-            <p className="md:text-xl text-lg font-medium text-white">{currentYear}&copy;TaskChain.co | All Rights Reserved</p>
+            <p className="md:text-xl text-lg font-medium text-white">
+              {currentYear}&copy;TaskChain.co | All Rights Reserved
+            </p>
           </div>
         </div>
       </footer>
