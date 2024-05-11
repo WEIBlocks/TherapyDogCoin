@@ -10,7 +10,8 @@ import inTensiveOutPatient from "./icons-03.png";
 import inPatient from "./icons-04.png";
 import EXECUTIVE_DIRECTOR from "./Jennifer_Hrbek_LCSW.png";
 import MEDICAL_DIRECTOR from "./Dr_Mohamed_Elsamra_MD.png";
- import CLINICAL_PSYCHOLOGIST from "./Dr._Carolyn_Dennett_PsyD.png"
+import CLINICAL_PSYCHOLOGIST from "./Dr._Carolyn_Dennett_PsyD.png";
+import founder4 from "./founder4.png";
 export const images = {
   exclamation,
   management,
@@ -24,6 +25,6 @@ export const images = {
   inPatient,
   EXECUTIVE_DIRECTOR,
   MEDICAL_DIRECTOR,
-  CLINICAL_PSYCHOLOGIST
-  
+  CLINICAL_PSYCHOLOGIST,
+  founder4,
 };

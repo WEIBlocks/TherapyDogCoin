@@ -5,7 +5,7 @@ import ServicesComp from "../../components/servicesComp";
 import { LuAlignHorizontalJustifyCenter } from "react-icons/lu";
 import { TbHourglassHigh } from "react-icons/tb";
 import { IoCopyOutline } from "react-icons/io5";
-import { services } from "../../data";
+import { services, teamData } from "../../data";
 import SectionHeading from "../../components/servicesComp/sectionHeading";
 import { images } from "../../assests";
 import MemberComp from "../../components/teamMember";
@@ -321,7 +321,7 @@ const Home = () => {
             <SectionHeading heading="Meet team" effect={"Team"} />
 
             <div className=" max-w-[1180px] w-full lg:pt-[48px] md:pt-[34px] pt-[20px] flex flex-wrap justify-center items-center gap-1">
-              <MemberComp
+              {/* <MemberComp
                 name="Jennifer Hrbek, LCSW"
                 desigination="EXECUTIVE DIRECTOR"
                 profilePic={images.EXECUTIVE_DIRECTOR}
@@ -335,7 +335,16 @@ const Home = () => {
                 name="Dr. Carolyn Dennett, PsyD"
                 desigination="CLINICAL PSYCHOLOGIST"
                 profilePic={images.CLINICAL_PSYCHOLOGIST}
-              />
+              /> */}
+
+              {teamData.map((team) => (
+                <MemberComp
+                  key={team.id}
+                  name={team.name}
+                  desigination={team.desigination}
+                  profilePic={team.profilePic}
+                />
+              ))}
             </div>
           </div>
         </div>

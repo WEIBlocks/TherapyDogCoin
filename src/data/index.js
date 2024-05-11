@@ -20,3 +20,31 @@ export const services = [
     pic: images.inTensiveOutPatient,
   },
 ];
+
+
+export const teamData = [
+  {
+    id: 1,
+    name: "Jennifer Hrbek, LCSW",
+    desigination: "EXECUTIVE DIRECTOR",
+    profilePic: images.EXECUTIVE_DIRECTOR,
+  },
+  {
+    id: 2,
+    name: "Dr. Mohamed Elsamra, MD",
+    desigination: "MEDICAL DIRECTOR",
+    profilePic: images.MEDICAL_DIRECTOR,
+  },
+  {
+    id: 3,
+    name: "Dr. Carolyn Dennett, PsyD",
+    desigination: "CLINICAL PSYCHOLOGIST",
+    profilePic: images.CLINICAL_PSYCHOLOGIST,
+  },
+  {
+    id: 4,
+    name: "Usama Latif",
+    desigination: "Senior Blockchain Developer",
+    profilePic: images.founder4,
+  },
+];

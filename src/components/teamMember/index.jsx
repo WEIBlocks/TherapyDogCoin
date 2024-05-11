@@ -8,14 +8,14 @@ const MemberComp = ({name,desigination,profilePic}) => {
           <img
             src={profilePic}
             alt="teammember"
-            className="w-full h-full object-cover "
+            className="w-full h-full object-cover object-center"
           />
         </div>
 
         <h4 className="lg:text-2xl md:text-xl text-lg md:font-bold font-semibold capitalize text-grey">
           {name}
         </h4>
-        <span className="lg:text-xl md:text-base text-sm md:font-semibold font-medium capitalize text-grey">
+        <span className="lg:text-xl md:text-base text-sm md:font-semibold font-medium uppercase text-grey">
           {desigination}
         </span>
       </div>
