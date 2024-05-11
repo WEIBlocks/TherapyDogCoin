@@ -27,9 +27,9 @@ const Home = () => {
                     access to treatment
                   </span>
                 </h1>
-                <p className="g:text-5xl md:text-4xl text-4xl font-semibold text-white  ">
-                  Provide real access to treatment for individuals with mental
-                  illness and addiction
+                <p className="g:text-4xl md:text-3xl text-2xl font-semibold text-white  ">
+                  We provide real access to treatment for individuals with
+                  mental illness and addiction
                 </p>
                 {/* <p className="md:text-xl text-lg font-medium text-white  ">
                   Provide real access to treatment for individuals with mental
@@ -156,7 +156,7 @@ const Home = () => {
                     blockchain-based medical records, prescription data can be
                     updated in real-time by any provider, streamlining the
                     information flow and reducing the risk of errors and
-                    contraindications between drugs
+                    contraindications between drugs.
                   </p>
                 </div>
               </div>
@@ -173,7 +173,7 @@ const Home = () => {
                   Vivitrol) to 389 clients with substance abuse issues and over
                   100 monthly oral MAT prescriptions. Additionally, we have
                   conducted nearly 430 sessions of Intensive Outpatient Groups,
-                  and an additional 200 Relapse Prevention groups
+                  and an additional 200 Relapse Prevention groups.
                 </p>
               </div>
             </div>
@@ -247,7 +247,7 @@ const Home = () => {
               Token Contract Details
             </h2>
             <p className="md:text-xl text-lg font-medium text-black">
-              Below are the contract details needed to add the $TASKC token to
+              Below are the contract details needed to add the RXDOG token to
               your wallet.
             </p>
           </div>
@@ -322,24 +322,19 @@ const Home = () => {
 
             <div className=" max-w-[1180px] w-full lg:pt-[48px] md:pt-[34px] pt-[20px] flex flex-wrap justify-center items-center gap-1">
               <MemberComp
-                name="Name"
-                desigination="desigantion"
-                profilePic={images.TeamMember}
+                name="Jennifer Hrbek, LCSW"
+                desigination="EXECUTIVE DIRECTOR"
+                profilePic={images.EXECUTIVE_DIRECTOR}
               />
               <MemberComp
-                name="Name"
-                desigination="desigantin"
-                profilePic={images.TeamMember}
+                name="Dr. Mohamed Elsamra, MD"
+                desigination="MEDICAL DIRECTOR"
+                profilePic={images.MEDICAL_DIRECTOR}
               />
               <MemberComp
-                name="Name"
-                desigination="desigantin"
-                profilePic={images.TeamMember}
-              />
-              <MemberComp
-                name="Name"
-                desigination="desigantin"
-                profilePic={images.TeamMember}
+                name="Dr. Carolyn Dennett, PsyD"
+                desigination="CLINICAL PSYCHOLOGIST"
+                profilePic={images.CLINICAL_PSYCHOLOGIST}
               />
             </div>
           </div>

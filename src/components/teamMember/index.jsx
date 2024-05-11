@@ -3,12 +3,12 @@ import React from "react";
 const MemberComp = ({name,desigination,profilePic}) => {
   return (
     <>
-      <div className="rounded-full min-w-[240px] p-[20px] flex flex-col md:gap-0.5 gap-1 goverflow-hidden items-center ">
-        <div className="w-[140px] h-full object-cover rounded-full border-[5px] border-primary ">
+      <div className="rounded-full min-w-[190px] p-[20px] flex flex-col md:gap-0.5 gap-[3px] goverflow-hidden items-center ">
+        <div className="lg:w-[140px] lg:h-[140px] md:w-[130px] md:h-[130px] w-[120px] h-[120px] object-cover rounded-full border-[4px] border-primary overflow-hidden ">
           <img
             src={profilePic}
             alt="teammember"
-            className="w-full h-full object-cover rounded-full"
+            className="w-full h-full object-cover "
           />
         </div>
 
