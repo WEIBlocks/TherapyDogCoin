@@ -4,7 +4,10 @@ import management2 from "./magement1.png";
 import Graph from "./Graph3.png";
 import Roadmap from "./chart4.png";
 import TeamMember from "./teammember.png";
-import brandLogo from "./logo.png";
+import brandLogo from "./logo-01.png";
+import about1 from "./illustration1.png"
+import about2 from "./illustration2.png"
+import about3 from "./illustration3.png"
 import outPatient from "./icons-02.png";
 import inTensiveOutPatient from "./icons-03.png";
 import inPatient from "./icons-04.png";
@@ -27,4 +30,7 @@ export const images = {
   MEDICAL_DIRECTOR,
   CLINICAL_PSYCHOLOGIST,
   founder4,
+  about1 ,
+  about2,
+about3
 };

@@ -136,7 +136,7 @@ const Home = () => {
             </div>
             <div className="md:w-1/2 w-full">
               <div className="w-full ">
-                <img src={images.management} alt="mangement" />
+                <img src={images.about1} alt="mangement" />
               </div>
             </div>
           </div>
@@ -144,7 +144,7 @@ const Home = () => {
             <div className="flex md:flex-row flex-col-reverse  items-center gap-1 md:p-1 p-0.1">
               <div className="md:w-1/2 w-full">
                 <div className="w-full ">
-                  <img src={images.management2} alt="mangement" />
+                  <img src={images.about2} alt="mangement" />
                 </div>
               </div>
               <div className="md:w-1/2 w-full ">
@@ -179,7 +179,7 @@ const Home = () => {
             </div>
             <div className="md:w-1/2 w-full">
               <div className="w-full ">
-                <img src={images.management} alt="mangement" />
+                <img src={images.about3} alt="mangement" />
               </div>
             </div>
           </div>
