@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaTelegramPlane } from "react-icons/fa";
 import { FaDiscord } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { SiBnbchain } from "react-icons/si";
 import { AiOutlineCloseSquare } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -12,10 +12,23 @@ import { images } from "../assests";
 const Layout = () => {
   const [isOpen, setIsOpen] = useState(false);
   const currentYear = new Date().getFullYear();
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      window.scrollTo({
+        behavior: "smooth",
+        top: section.offsetTop - 50, // Adjust this value as needed to account for header height
+      });
+    }
+  };
+
   return (
     <>
-      <header className="bg-primary sticky top-0 z-50 shadow-xl">
-        <div className="container flex-between items-center py-1 sec-pad-x ">
+      <header id="header" className="bg-primary sticky top-0 z-50 shadow-xl">
+        <div
+          id="navbar"
+          className="container flex-between items-center py-1 sec-pad-x "
+        >
           <div className="flex items-center">
             <div className="lg:w-[60px] lg:h-[60px] md:w-[50px] md:h-[50px] w-[40px] h-[40px] text-dark-primary mr-1">
               <img src={images.brandLogo} alt="brandLogog" />
@@ -29,10 +42,79 @@ const Layout = () => {
               isOpen ? "" : "lg:translate-x-0 -translate-x-full"
             } flex lg:items-center gap-1.5 lg:relative fixed lg:flex-row flex-col left-0 lg:h-auto h-full top-0 lg:w-auto w-full overflow-auto lg:p-0 p-3 lg:bg-transparent bg-primary transition-all`}
           >
-            <span className="nav-link">about</span>
-            <span className="nav-link">about</span>
-            <span className="nav-link">about</span>
-            <span className="nav-link">about</span>
+            {/* <span className="nav-link scrollto active">hero</span> */}
+            {/* <a href="#hero" className="nav-link scrollto active">
+              hero
+            </a>
+
+            <a href="#about" className="nav-link scrollto">
+              about
+            </a>
+            <a href="#services" className="nav-link scrollto">
+              services
+            </a>
+            <a href="#tokenomics" className="nav-link scrollto">
+              tokenomics
+            </a>
+            <a href="#contract" className="nav-link scrollto">
+              contract
+            </a>
+            <a href="#roadmap" className="nav-link scrollto">
+              roadmap
+            </a>
+            <a href="#team" className="nav-link scrollto">
+              team
+            </a> */}
+
+            <button
+              className="nav-link"
+              onClick={() => scrollToSection("hero")}
+            >
+              hero
+            </button>
+            <button
+              className="nav-link"
+              onClick={() => scrollToSection("about")}
+            >
+              about
+            </button>
+            <button
+              className="nav-link"
+              onClick={() => scrollToSection("services")}
+            >
+              services
+            </button>
+            <button
+              className="nav-link"
+              onClick={() => scrollToSection("tokenomics")}
+            >
+              tokenomics
+            </button>
+            <button
+              className="nav-link"
+              onClick={() => scrollToSection("contract")}
+            >
+              contract
+            </button>
+            <button
+              className="nav-link"
+              onClick={() => scrollToSection("roadmap")}
+            >
+              roadmap
+            </button>
+            <button
+              className="nav-link"
+              onClick={() => scrollToSection("team")}
+            >
+              team
+            </button>
+
+            {/* <span className="nav-link scrollto">about</span>
+            <span className="nav-link scrollto">services</span>
+            <span className="nav-link scrollto">tokenomics</span>
+            <span className="nav-link scrollto">contract</span>
+            <span className="nav-link scrollto">roadmap</span>
+            <span className="nav-link scrollto">team</span> */}
             <div className="flex md:gap-1 gap-[10px]">
               <div className="nav-icon">
                 <FaTelegramPlane />
@@ -41,7 +123,9 @@ const Layout = () => {
                 <FaDiscord />
               </div>
               <div className="nav-icon">
-                <FaTwitter />
+                <Link to="https://twitter.com/therapydag" target="blank">
+                  <FaTwitter />
+                </Link>
               </div>
             </div>
             {/* <button className="btn-border">
