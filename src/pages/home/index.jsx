@@ -10,8 +10,10 @@ import SectionHeading from "../../components/servicesComp/sectionHeading";
 import { images } from "../../assests";
 import MemberComp from "../../components/teamMember";
 import TintHeading from "../../components/servicesComp/sectionHeading/tintHeading";
+import { useWeb3Modal } from '@web3modal/ethers/react'
 
 const Home = () => {
+  const { open } = useWeb3Modal()
   return (
     <>
       {/* hero section */}
@@ -39,7 +41,7 @@ const Home = () => {
                 </div>
                 <div className="md:w-1/2 w-full flex md:justify-end  justify-center">
                   <div className="max-w-[380px] w-full bg-light-secondary md:p-[20px] p-[15px] rounded-xl flex flex-col gap-1">
-                    <div className="flex justify-between flex-col gap-0.5">
+                    {/* <div className="flex justify-between flex-col gap-0.5">
                       <h3 className="md:text-2xl text-xl font-bold text-white text-center ">
                         ICO
                       </h3>
@@ -65,7 +67,7 @@ const Home = () => {
                       </p>
                       <Tabs>
                         <div className="flex flex-col gap-0.5 justify-start items-start">
-                          {/* <div className="btn-inner-0"> */}
+                          
                           <TabList>
                             <div className=" text-nowrap   flex flex-wrap ">
                               <Tab>
@@ -80,7 +82,6 @@ const Home = () => {
                             </div>
                           </TabList>
 
-                          {/* </div> */}
                           <div className="w-full">
                             <TabPanel>
                               <div className="md:rounded-lg relative p-[2px] bg-white w-full ">
@@ -115,6 +116,117 @@ const Home = () => {
                       <p className="md:text-sm text-xs font-medium text-white">
                         Last chance before it gets listed at $0.001
                       </p>
+                    </div> */}
+
+                    <div className="flex flex-between items-center">
+                      <h4 className="md:text-2xl text-xl font-bold text-white text-center">
+                        Presale is live{" "}
+                        <span className="text-3xl text-green-400">•</span>
+                      </h4>
+                      <span className="text-tint-purple md:text-xl text-lg md:font-semibold font-normal capitalize">
+                        STAGE 6
+                      </span>
+                    </div>
+
+                    <div className="f-col">
+                      <p className="md:text-sm text-xs font-medium text-white ">
+                        ICO at $0.0001
+                      </p>
+                      <p className="md:text-sm text-xs font-medium text-white ">
+                        Listing at $0.001
+                      </p>
+                    </div>
+                    <div className="relative before:absolute before:content-[' '] before:left-1/2 before:-translate-x-1/2 before:z-0 before:w-full before:h-[1px] before:bg-white before:m-auto"></div>
+
+                    <h4 className="md:text-lg text-base font-bold text-white capitalize">
+                      PURCHASE $TASKC
+                    </h4>
+                    <Tabs>
+                      <div className="flex flex-col gap-1 justify-start items-start">
+                        <TabList>
+                          <div className=" text-nowrap flex flex-wrap ">
+                            <Tab>
+                              <div className="tab text-base flex md:gap-0.5 items-center">
+                                <img
+                                  src={images.eth}
+                                  alt="ether"
+                                  className="w-[20px] h-[20px]"
+                                />
+                                <span className="capitalize">eth</span>
+                              </div>
+                            </Tab>
+
+                            <Tab>
+                              <div className="tab-r text-base flex md:gap-0.5 items-center">
+                                <img
+                                  src={images.tether}
+                                  alt="ether"
+                                  className="w-[20px] h-[20px]"
+                                />
+                                <span className="capitalize">usdt</span>
+                              </div>
+                            </Tab>
+                          </div>
+                        </TabList>
+
+                        <div className="w-full">
+                          <TabPanel>
+                            <div className="flex flex-col gap-1">
+                              <div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
+                                <img
+                                  src={images.eth}
+                                  alt="ether"
+                                  className="w-[25px] h-[25px]"
+                                />
+                                <input className="card-input" type="text" />
+                              </div>
+                              <div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
+                                <img
+                                  src={images.tether}
+                                  alt="ether"
+                                  className="w-[25px] h-[25px]"
+                                />
+                                <input className="card-input" type="text" />
+                              </div>
+                            </div>
+                            {/* <div className="md:rounded-lg relative p-[2px] bg-white w-full ">
+                              <input
+                                value={0}
+                                className="card-input"
+                                type="text"
+                              />
+                            </div> */}
+                          </TabPanel>
+                          <TabPanel>
+                            <div className="flex flex-col gap-1">
+                              <div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
+                                <img
+                                  src={images.tether}
+                                  alt="ether"
+                                  className="w-[25px] h-[25px]"
+                                />
+                                <input className="card-input" type="text" />
+                              </div>
+                              <div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
+                                <img
+                                  src={images.eth}
+                                  alt="ether"
+                                  className="w-[25px] h-[25px]"
+                                />
+                                <input className="card-input" type="text" />
+                              </div>
+                            </div>
+                          </TabPanel>
+                        </div>
+                      </div>
+                    </Tabs>
+                    <div className="flex md:flex-row gap-1 flex-col flex-between items-center">
+                      <span className="md:text-sm text-xs font-medium text-white ">
+                        HOW TO BUY?
+                      </span>
+                      <button className="btn bg-secondary text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple" onClick={() => open()}>
+                        connect wallet
+                      </button>
                     </div>
                   </div>
                 </div>

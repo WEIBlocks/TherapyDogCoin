@@ -13,9 +13,8 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input{
+input {
   outline: none;
-
 }
 img {
   object-fit: cover;
@@ -34,11 +33,11 @@ img {
   .container {
     @apply mx-auto max-w-[1310px] w-full;
   }
-  .sec-pad-x{
+  .sec-pad-x {
     @apply lg:px-[48px] md:px-[34px] px-[20px];
   }
 
-  .sec-pad-y{
+  .sec-pad-y {
     @apply lg:py-[48px] md:py-[34px] py-[20px];
   }
 
@@ -57,48 +56,48 @@ img {
   .btn-inner {
     @apply rounded-[96px] py-[08px] px-[24px] bg-light-primary;
   }
+  .btn{
+    @apply rounded-[96px] py-[08px] px-[24px] capitalize;
+  }
   .btn-inner-0 {
     @apply rounded-[96px] bg-light-primary;
   }
- 
-  .tab{
-    @apply text-white inline-flex items-center rounded-tl-[96px] rounded-bl-[96px] bg-primary-transparent h-full cursor-pointer  text-xs font-bold p-[8px] outline-none focus:ring-0 border-none
-  
+
+  .tab {
+    @apply text-white inline-flex items-center rounded-tl-[96px] rounded-bl-[96px] bg-tint-purple h-full cursor-pointer  text-xs font-bold p-[8px] outline-none focus:ring-0 border-none;
   }
-  .tab-no-radius{
-    @apply text-white inline-flex items-center bg-primary-transparent h-full p-[8px]
-    text-xs font-bold cursor-pointer outline-none focus:ring-0 border-none
+  .tab-no-radius {
+    @apply text-white inline-flex items-center bg-tint-purple h-full p-[8px]
+    text-xs font-bold cursor-pointer outline-none focus:ring-0 border-none;
   }
-  .tab-r{
-    @apply text-white inline-flex items-center rounded-tr-[96px] rounded-br-[96px] bg-primary-transparent h-full text-xs font-bold p-[8px] cursor-pointer  outline-none focus:ring-0 border-none
+  .tab-r {
+    @apply text-white inline-flex items-center rounded-tr-[96px] rounded-br-[96px] bg-tint-purple h-full text-xs font-bold p-[8px] cursor-pointer  outline-none focus:ring-0 border-none;
   }
-  .card-input{
-    @apply w-full p-0.5 border-none md:text-base text-sm font-bold text-black
+  .card-input {
+    @apply w-full p-0.5 border-none md:text-base text-sm font-bold text-black;
   }
 }
-.react-tabs__tab{
+.react-tabs__tab {
   outline: none;
   border: none;
-  
 }
-.react-tabs__tab--selected >.tab,
-.react-tabs__tab--selected >.tab-no-radius,
-.react-tabs__tab--selected >.tab-r{
+.react-tabs__tab--selected > .tab,
+.react-tabs__tab--selected > .tab-no-radius,
+.react-tabs__tab--selected > .tab-r {
   @apply bg-secondary;
 }
 
-.react-tabs__tab-panel--selected{
+.react-tabs__tab-panel--selected {
   width: 100%;
 }
-.blob-bg{
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: repeat;
-    background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%3E%3ClinearGradient id=%22b%22%3E%3Cstop offset=%220%25%22 stop-color=%22%23e58f17%22%2F%3E%3Cstop offset=%22100%25%22 stop-color=%22%23e86c2e%22%2F%3E%3C%2FlinearGradient%3E%3CclipPath id=%22a%22%3E%3Cpath fill=%22currentColor%22 d=%22M762 618Q636 736 502 732T191 614Q14 500 162 335.5T529 121q219-50 289 164.5T762 618Z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg clip-path=%22url(%23a)%22%3E%3Cpath fill=%22url(%23b)%22 d=%22M762 618Q636 736 502 732T191 614Q14 500 162 335.5T529 121q219-50 289 164.5T762 618Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
-  
+.blob-bg {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: repeat;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%3E%3ClinearGradient id=%22b%22%3E%3Cstop offset=%220%25%22 stop-color=%22%23e58f17%22%2F%3E%3Cstop offset=%22100%25%22 stop-color=%22%23e86c2e%22%2F%3E%3C%2FlinearGradient%3E%3CclipPath id=%22a%22%3E%3Cpath fill=%22currentColor%22 d=%22M762 618Q636 736 502 732T191 614Q14 500 162 335.5T529 121q219-50 289 164.5T762 618Z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg clip-path=%22url(%23a)%22%3E%3Cpath fill=%22url(%23b)%22 d=%22M762 618Q636 736 502 732T191 614Q14 500 162 335.5T529 121q219-50 289 164.5T762 618Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
 }
-.nav-link.active{
+.nav-link.active {
   @apply text-dark-primary;
-} 
+}
