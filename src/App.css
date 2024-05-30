@@ -64,14 +64,14 @@ img {
   }
 
   .tab {
-    @apply text-white inline-flex items-center rounded-tl-[96px] rounded-bl-[96px] bg-tint-purple h-full cursor-pointer  text-xs font-bold p-[8px] outline-none focus:ring-0 border-none;
+    @apply text-white inline-flex items-center rounded-tl-[96px] rounded-bl-[96px] bg-tint-purple h-full cursor-pointer  text-xs font-bold md:py-[8px] py-[6px] md:px-[16px] px-[12px] outline-none focus:ring-0 border-none;
   }
   .tab-no-radius {
-    @apply text-white inline-flex items-center bg-tint-purple h-full p-[8px]
+    @apply text-white inline-flex items-center bg-tint-purple h-full md:py-[8px] py-[6px] md:px-[16px] px-[12px]
     text-xs font-bold cursor-pointer outline-none focus:ring-0 border-none;
   }
   .tab-r {
-    @apply text-white inline-flex items-center rounded-tr-[96px] rounded-br-[96px] bg-tint-purple h-full text-xs font-bold p-[8px] cursor-pointer  outline-none focus:ring-0 border-none;
+    @apply text-white inline-flex items-center rounded-tr-[96px] rounded-br-[96px] bg-tint-purple h-full text-xs font-bold md:py-[8px] py-[6px] md:px-[16px] px-[12px] cursor-pointer  outline-none focus:ring-0 border-none;
   }
   .card-input {
     @apply w-full p-0.5 border-none md:text-base text-sm font-bold text-black;

@@ -14,7 +14,9 @@ const Layout = () => {
   const currentYear = new Date().getFullYear();
   const scrollToSection = (sectionId) => {
     const section = document.getElementById(sectionId);
+
     if (section) {
+      setIsOpen(!isOpen)
       window.scrollTo({
         behavior: "smooth",
         top: section.offsetTop - 50, // Adjust this value as needed to account for header height
@@ -39,8 +41,8 @@ const Layout = () => {
           </div>
           <nav
             className={`${
-              isOpen ? "" : "lg:translate-x-0 -translate-x-full"
-            } flex lg:items-center gap-1.5 lg:relative fixed lg:flex-row flex-col left-0 lg:h-auto h-full top-0 lg:w-auto w-full overflow-auto lg:p-0 p-3 lg:bg-transparent bg-primary transition-all`}
+              isOpen ? "" : "xl:translate-x-0 -translate-x-full"
+            } flex lg:items-center gap-1.5 xl:relative fixed xl:flex-row flex-col left-0 xl:h-auto h-full top-0 xl:w-auto w-full overflow-auto xl:p-0 p-3 xl:bg-transparent bg-primary transition-all`}
           >
             {/* <span className="nav-link scrollto active">hero</span> */}
             {/* <a href="#hero" className="nav-link scrollto active">
@@ -133,13 +135,13 @@ const Layout = () => {
             </button> */}
             <div
               onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden block absolute right-0 pr-3 text-white text-xl cursor-pointer z-20"
+              className="xl:hidden block absolute right-0 pr-3 text-white text-xl cursor-pointer z-20"
             >
               <AiOutlineCloseSquare />
             </div>
           </nav>
           <button
-            className="lg:hidden block  text-white text-xl cursor-pointer "
+            className="xl:hidden block  text-white text-xl cursor-pointer "
             onClick={() => setIsOpen(!isOpen)}
           >
             <GiHamburgerMenu />

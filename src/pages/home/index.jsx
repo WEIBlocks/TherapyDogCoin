@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SiBnbchain } from "react-icons/si";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import ServicesComp from "../../components/servicesComp";
@@ -10,10 +10,38 @@ import SectionHeading from "../../components/servicesComp/sectionHeading";
 import { images } from "../../assests";
 import MemberComp from "../../components/teamMember";
 import TintHeading from "../../components/servicesComp/sectionHeading/tintHeading";
-import { useWeb3Modal } from '@web3modal/ethers/react'
+import { useWeb3Modal } from "@web3modal/ethers/react";
+import { therapyContext } from "../../context/therapyContext";
 
 const Home = () => {
-  const { open } = useWeb3Modal()
+  const {
+    connectWallet,
+    currentAccount,
+    stage,
+    price,
+    NativeToTokenHelper,
+    buyTokenWithNative,
+    buyTokenWithToken,
+  } = useContext(therapyContext);
+  const [ethPrice, setEthPrice] = useState(0);
+  const [therapyPrice, setTherapyPrice] = useState(0);
+  const [usdtPrice, setUsdtPrice] = useState(0);
+  useEffect(() => {
+    const fetchPrice = async () => {
+      const price = await NativeToTokenHelper(ethPrice);
+
+      setTherapyPrice(price);
+    };
+    fetchPrice();
+  }, [ethPrice]);
+
+  console.log("therapyPrice", therapyPrice);
+  const [activeTab, setActiveTab] = useState(0);
+  const handleTabChange = (index) => {
+    setActiveTab(index);
+  };
+  // console.log(currentAccount,activeTab);
+
   return (
     <>
       {/* hero section */}
@@ -124,13 +152,13 @@ const Home = () => {
                         <span className="text-3xl text-green-400">•</span>
                       </h4>
                       <span className="text-tint-purple md:text-xl text-lg md:font-semibold font-normal capitalize">
-                        STAGE 6
+                        STAGE {stage < 1 ? stage + 1 : stage}
                       </span>
                     </div>
 
                     <div className="f-col">
                       <p className="md:text-sm text-xs font-medium text-white ">
-                        ICO at $0.0001
+                        ICO at ${price}
                       </p>
                       <p className="md:text-sm text-xs font-medium text-white ">
                         Listing at $0.001
@@ -141,18 +169,18 @@ const Home = () => {
                     <h4 className="md:text-lg text-base font-bold text-white capitalize">
                       PURCHASE $TASKC
                     </h4>
-                    <Tabs>
+                    <Tabs selectedIndex={activeTab} onSelect={handleTabChange}>
                       <div className="flex flex-col gap-1 justify-start items-start">
                         <TabList>
                           <div className=" text-nowrap flex flex-wrap ">
                             <Tab>
-                              <div className="tab text-base flex md:gap-0.5 items-center">
+                              <div className="tab text-base flex md:gap-0.5 items-center ">
                                 <img
                                   src={images.eth}
                                   alt="ether"
                                   className="w-[20px] h-[20px]"
                                 />
-                                <span className="capitalize">eth</span>
+                                <span className="uppercase">eth</span>
                               </div>
                             </Tab>
 
@@ -163,7 +191,7 @@ const Home = () => {
                                   alt="ether"
                                   className="w-[20px] h-[20px]"
                                 />
-                                <span className="capitalize">usdt</span>
+                                <span className="uppercase">usdt</span>
                               </div>
                             </Tab>
                           </div>
@@ -186,7 +214,11 @@ const Home = () => {
                                   alt="ether"
                                   className="w-[25px] h-[25px]"
                                 />
-                                <input className="card-input" type="text" />
+                                <input
+                                  className="card-input"
+                                  type="text"
+                                  disabled
+                                />
                               </div>
                             </div>
                             {/* <div className="md:rounded-lg relative p-[2px] bg-white w-full ">
@@ -213,7 +245,11 @@ const Home = () => {
                                   alt="ether"
                                   className="w-[25px] h-[25px]"
                                 />
-                                <input className="card-input" type="text" />
+                                <input
+                                  className="card-input"
+                                  type="text"
+                                  disabled
+                                />
                               </div>
                             </div>
                           </TabPanel>
@@ -224,9 +260,25 @@ const Home = () => {
                       <span className="md:text-sm text-xs font-medium text-white ">
                         HOW TO BUY?
                       </span>
-                      <button className="btn bg-secondary text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple" onClick={() => open()}>
-                        connect wallet
-                      </button>
+                      {currentAccount ? (
+                        <button
+                          className="btn bg-secondary text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
+                          // onClick={() => {
+                          //   setIsLoadingContracts(true);
+                          //   handleBuy();
+                          // }}
+                        >
+                          Buy
+                        </button>
+                      ) : (
+                        <button
+                          className="btn bg-secondary text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
+                          onClick={connectWallet}
+                          // onClick={() => open()}
+                        >
+                          connect wallet
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
