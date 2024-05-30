@@ -10,7 +10,6 @@ import SectionHeading from "../../components/servicesComp/sectionHeading";
 import { images } from "../../assests";
 import MemberComp from "../../components/teamMember";
 import TintHeading from "../../components/servicesComp/sectionHeading/tintHeading";
-import { useWeb3Modal } from "@web3modal/ethers/react";
 import { therapyContext } from "../../context/therapyContext";
 
 const Home = () => {
@@ -26,21 +25,37 @@ const Home = () => {
   const [ethPrice, setEthPrice] = useState(0);
   const [therapyPrice, setTherapyPrice] = useState(0);
   const [usdtPrice, setUsdtPrice] = useState(0);
+  const [tokenPrice, setTokenPrice] = useState(0);
   useEffect(() => {
     const fetchPrice = async () => {
-      const price = await NativeToTokenHelper(ethPrice);
+      const price = await NativeToTokenHelper(3000);
 
       setTherapyPrice(price);
     };
     fetchPrice();
   }, [ethPrice]);
 
-  console.log("therapyPrice", therapyPrice);
+  console.log("therapyPrice", therapyPrice, "price", price);
   const [activeTab, setActiveTab] = useState(0);
   const handleTabChange = (index) => {
     setActiveTab(index);
   };
   // console.log(currentAccount,activeTab);
+
+  const buyHandler = async () => {
+    // if (activeTab === 0) {
+    //   await buyTokenWithNative(ethPrice, therapyPrice);
+    // } else if (activeTab === 1) {
+    //   await buyTokenWithToken(usdtPrice, tokenPrice);
+    // }
+    alert("alert");
+  };
+
+  const usdtChangeHandler = (e) => {
+    setUsdtPrice(e.target.value);
+    const newPice = e.target.value / 8;
+    setTokenPrice(newPice);
+  };
 
   return (
     <>
@@ -198,6 +213,7 @@ const Home = () => {
                         </TabList>
 
                         <div className="w-full">
+                          {/* tab1 */}
                           <TabPanel>
                             <div className="flex flex-col gap-1">
                               <div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
@@ -206,7 +222,7 @@ const Home = () => {
                                   alt="ether"
                                   className="w-[25px] h-[25px]"
                                 />
-                                <input className="card-input" type="text" />
+                                <input className="card-input" type="number" />
                               </div>
                               <div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
                                 <img
@@ -216,7 +232,14 @@ const Home = () => {
                                 />
                                 <input
                                   className="card-input"
-                                  type="text"
+                                  type="number"
+                                  value={
+                                    therapyPrice < 1 ||
+                                    therapyPrice === undefined ||
+                                    therapyPrice === null
+                                      ? 0
+                                      : therapyPrice
+                                  }
                                   disabled
                                 />
                               </div>
@@ -229,6 +252,9 @@ const Home = () => {
                               />
                             </div> */}
                           </TabPanel>
+                          {/* tab1 */}
+
+                          {/* tab2 */}
                           <TabPanel>
                             <div className="flex flex-col gap-1">
                               <div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
@@ -237,7 +263,12 @@ const Home = () => {
                                   alt="ether"
                                   className="w-[25px] h-[25px]"
                                 />
-                                <input className="card-input" type="text" />
+                                <input
+                                  className="card-input"
+                                  type="number"
+                                  value={usdtPrice}
+                                  onChange={usdtChangeHandler}
+                                />
                               </div>
                               <div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
                                 <img
@@ -247,12 +278,20 @@ const Home = () => {
                                 />
                                 <input
                                   className="card-input"
-                                  type="text"
+                                  type="number"
                                   disabled
+                                  value={
+                                    tokenPrice < 1 ||
+                                    tokenPrice === undefined ||
+                                    tokenPrice === null
+                                      ? 0
+                                      : tokenPrice
+                                  }
                                 />
                               </div>
                             </div>
                           </TabPanel>
+                          {/* tab2 */}
                         </div>
                       </div>
                     </Tabs>
@@ -267,6 +306,7 @@ const Home = () => {
                           //   setIsLoadingContracts(true);
                           //   handleBuy();
                           // }}
+                          onClick={buyHandler}
                         >
                           Buy
                         </button>

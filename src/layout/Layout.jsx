@@ -42,7 +42,7 @@ const Layout = () => {
           <nav
             className={`${
               isOpen ? "" : "xl:translate-x-0 -translate-x-full"
-            } flex lg:items-center gap-1.5 xl:relative fixed xl:flex-row flex-col left-0 xl:h-auto h-full top-0 xl:w-auto w-full overflow-auto xl:p-0 p-3 xl:bg-transparent bg-primary transition-all`}
+            } flex items-center gap-1.5 xl:relative fixed xl:flex-row flex-col left-0 xl:h-auto h-full top-0 xl:w-auto w-full overflow-auto xl:p-0 p-3 xl:bg-transparent bg-primary transition-all`}
           >
             {/* <span className="nav-link scrollto active">hero</span> */}
             {/* <a href="#hero" className="nav-link scrollto active">
