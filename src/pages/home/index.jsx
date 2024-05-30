@@ -22,6 +22,7 @@ const Home = () => {
     buyTokenWithNative,
     buyTokenWithToken,
   } = useContext(therapyContext);
+  const [loading, setLoading] = useState(false);
   const [ethPrice, setEthPrice] = useState(0);
   const [therapyPrice, setTherapyPrice] = useState(0);
   const [usdtPrice, setUsdtPrice] = useState(0);
@@ -43,18 +44,25 @@ const Home = () => {
   // console.log(currentAccount,activeTab);
 
   const buyHandler = async () => {
+    setLoading(true);
     // if (activeTab === 0) {
     //   await buyTokenWithNative(ethPrice, therapyPrice);
     // } else if (activeTab === 1) {
     //   await buyTokenWithToken(usdtPrice, tokenPrice);
     // }
-    alert("alert");
+    setLoading(false);
   };
 
   const usdtChangeHandler = (e) => {
     setUsdtPrice(e.target.value);
-    const newPice = e.target.value / 8;
+    const newPice = e.target.value / price;
     setTokenPrice(newPice);
+  };
+
+  const ethChangeHandler = (e) => {
+    setEthPrice(e.target.value);
+    const newPice = e.target.value * price;
+    setTherapyPrice(newPice);
   };
 
   return (
@@ -222,7 +230,12 @@ const Home = () => {
                                   alt="ether"
                                   className="w-[25px] h-[25px]"
                                 />
-                                <input className="card-input" type="number" />
+                                <input
+                                  className="card-input"
+                                  type="number"
+                                  value={ethPrice}
+                                  onChange={ethChangeHandler}
+                                />
                               </div>
                               <div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
                                 <img
@@ -308,7 +321,7 @@ const Home = () => {
                           // }}
                           onClick={buyHandler}
                         >
-                          Buy
+                          {loading ? "loading..." : "buy"}
                         </button>
                       ) : (
                         <button
