@@ -16,7 +16,7 @@ const Layout = () => {
     const section = document.getElementById(sectionId);
 
     if (section) {
-      setIsOpen(!isOpen)
+      setIsOpen(!isOpen);
       window.scrollTo({
         behavior: "smooth",
         top: section.offsetTop - 50, // Adjust this value as needed to account for header height
@@ -31,8 +31,8 @@ const Layout = () => {
           id="navbar"
           className="container flex-between items-center py-1 sec-pad-x "
         >
-          <div className="flex items-center">
-            <div className="lg:w-[60px] lg:h-[60px] md:w-[50px] md:h-[50px] w-[40px] h-[40px] text-dark-primary mr-1">
+          <div className="flex items-center md:gap-0.5 gap-[5px] ">
+            <div className="lg:w-[70px] lg:h-[70px] md:w-[55px] md:h-[55px] w-[40px] h-[40px] text-dark-primary mr-1">
               <img src={images.brandLogo} alt="brandLogog" />
             </div>
             <h2 className="lg:text-2xl md:text-xl text-lg text-white font-semibold capitalize text-nowrap ">
@@ -44,9 +44,9 @@ const Layout = () => {
               isOpen ? "" : "xl:translate-x-0 -translate-x-full"
             } flex items-center gap-1.5 xl:relative fixed xl:flex-row flex-col left-0 xl:h-auto h-full top-0 xl:w-auto w-full overflow-auto xl:p-0 p-3 xl:bg-transparent bg-primary transition-all`}
           >
-            {/* <span className="nav-link scrollto active">hero</span> */}
-            {/* <a href="#hero" className="nav-link scrollto active">
-              hero
+            {/* <span className="nav-link scrollto active">home</span> */}
+            {/* <a href="#home" className="nav-link scrollto active">
+              home
             </a>
 
             <a href="#about" className="nav-link scrollto">
@@ -70,9 +70,9 @@ const Layout = () => {
 
             <button
               className="nav-link"
-              onClick={() => scrollToSection("hero")}
+              onClick={() => scrollToSection("home")}
             >
-              hero
+              home
             </button>
             <button
               className="nav-link"
@@ -191,7 +191,7 @@ const Layout = () => {
               jurisdiction.
             </p>
             <p className="md:text-xl text-lg font-medium text-white">
-              {currentYear}&copy;TaskChain.co | All Rights Reserved
+              {currentYear}&copy; TherapyDogCoin | All Rights Reserved
             </p>
           </div>
         </div>
