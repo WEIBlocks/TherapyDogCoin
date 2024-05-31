@@ -21,6 +21,7 @@ const Home = () => {
     NativeToTokenHelper,
     buyTokenWithNative,
     buyTokenWithToken,
+	balance
   } = useContext(therapyContext);
   const [ethPrice, setEthPrice] = useState(0);
   const [therapyPrice, setTherapyPrice] = useState(0);
@@ -47,6 +48,7 @@ const Home = () => {
     }
   };
 
+  console.log("currentAccount", currentAccount);
   const usdtChangeHandler = (e) => {
     setUsdtPrice(e.target.value);
     const newPice = e.target.value / price;
@@ -57,6 +59,16 @@ const Home = () => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(contractAddress);
   };
+  function formatEthereumAddress(address) {
+    // Extract the first four characters
+    const firstFour = address.slice(0, 4);
+    // Extract the last four characters
+    const lastFour = address.slice(-4);
+    // Return the formatted string
+    return `${firstFour}...${lastFour}`;
+  }
+
+  const formattedAddress = formatEthereumAddress(currentAccount);
 
   return (
     <>
@@ -190,7 +202,7 @@ const Home = () => {
                         <TabList>
                           <div className=" text-nowrap flex flex-wrap ">
                             <Tab>
-                              <div className="tab text-base flex md:gap-0.5 items-center ">
+                              <div className="tab text-base flex md:gap-0.5 gap-[05px] items-center ">
                                 <img
                                   src={images.eth}
                                   alt="ether"
@@ -201,7 +213,7 @@ const Home = () => {
                             </Tab>
 
                             <Tab>
-                              <div className="tab-r text-base flex md:gap-0.5 items-center">
+                              <div className="tab-r text-base flex md:gap-0.5 gap-[05px] items-center">
                                 <img
                                   src={images.tether}
                                   alt="ether"
@@ -232,7 +244,7 @@ const Home = () => {
                               </div>
                               <div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
                                 <img
-                                  src={images.tether}
+                                  src={images.brandLogo}
                                   alt="ether"
                                   className="w-[25px] h-[25px]"
                                 />
@@ -277,11 +289,14 @@ const Home = () => {
                                 />
                               </div>
                               <div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
-                                <img
-                                  src={images.eth}
-                                  alt="ether"
-                                  className="w-[25px] h-[25px]"
-                                />
+                                <div className="">
+                                  <img
+                                    src={images.brandLogo}
+                                    alt="ether"
+                                    className="w-[25px] h-[25px] object-cover"
+                                  />
+                                </div>
+
                                 <input
                                   className="card-input"
                                   type="number"
@@ -301,6 +316,16 @@ const Home = () => {
                         </div>
                       </div>
                     </Tabs>
+                    {currentAccount && (
+                      <div className="f-col">
+                        <p className="md:text-sm text-xs font-medium text-white capitalize">
+                          <span className="font-bold">wallet:</span> {formattedAddress}
+                        </p>
+                        <p className="md:text-sm text-xs font-medium text-white capitalize">
+                          <span className="font-bold">balance:</span> {balance?.formatted} $TASKC
+                        </p>
+                      </div>
+                    )}
                     <div className="flex md:flex-row gap-1 flex-col flex-between items-center">
                       <span className="md:text-sm text-xs font-medium text-white ">
                         HOW TO BUY?
