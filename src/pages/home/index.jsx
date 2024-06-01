@@ -27,6 +27,7 @@ const Home = () => {
   const [therapyPrice, setTherapyPrice] = useState(0);
   const [usdtPrice, setUsdtPrice] = useState(0);
   const [tokenPrice, setTokenPrice] = useState(0);
+  console.log("stage", stage);
   useEffect(() => {
     const fetchPrice = async () => {
       const price = await NativeToTokenHelper(ethPrice);
@@ -180,7 +181,7 @@ const Home = () => {
                         <span className="text-3xl text-green-400">•</span>
                       </h4>
                       <span className="text-tint-purple md:text-xl text-lg md:font-semibold font-normal capitalize">
-                        STAGE {stage < 1 ? stage + 1 : stage}
+                        STAGE {stage+1}
                       </span>
                     </div>
 
