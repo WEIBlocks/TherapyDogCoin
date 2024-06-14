@@ -3,7 +3,6 @@ import React, { useState, useEffect, createContext } from "react";
 import { ethers } from "ethers";
 import { useWeb3Modal } from "@web3modal/react";
 import { useAccount, useNetwork } from "wagmi";
-import { useBalance } from "wagmi";
 import { switchNetwork } from "@wagmi/core";
 import { toast } from "react-toastify";
 import { readContract, writeContract, waitForTransaction } from "@wagmi/core";
@@ -34,7 +33,6 @@ export const TherapyContextProvider = ({ children }) => {
 	const errorWhileNetworkSwitching = () =>
 		toast.error("Error while switching network");
 	const chainId = chain?.id;
-
 	useEffect(() => {
 		if (!isConnected) {
 			setCurrentAccount("");
@@ -44,7 +42,7 @@ export const TherapyContextProvider = ({ children }) => {
 	const switchNetworkFrontend = async () => {
 		if (chainId !== maticChainAddress && isConnected) {
 			try {
-				const network = await switchNetwork({ chainId: maticChainAddress });
+				await switchNetwork({ chainId: maticChainAddress });
 				window.location.reload();
 			} catch (error) {
 				errorWhileNetworkSwitching();
@@ -86,12 +84,12 @@ export const TherapyContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		currentStage();
-	}, [currentAccount, address]);
+		priceInStage();
+	}, []);
 
 	useEffect(() => {
 		tokensInStages();
 		tokensSoldPerStage();
-		priceInStage();
 		priceNextStage();
 	}, [stage, address]);
 
@@ -133,14 +131,10 @@ export const TherapyContextProvider = ({ children }) => {
 	const currentStage = async () => {
 		try {
 			let contract;
-			if (chainId === maticChainAddress) {
-				const provider = new ethers.providers.JsonRpcProvider(polyRPC);
-				contract = new ethers.Contract(
-					presaleContractPoly,
-					presaleABI,
-					provider
-				);
-			}
+
+			const provider = new ethers.providers.JsonRpcProvider(polyRPC);
+			contract = new ethers.Contract(presaleContractPoly, presaleABI, provider);
+
 			if (contract === undefined) return;
 
 			const stage = await contract.stage();
@@ -188,17 +182,12 @@ export const TherapyContextProvider = ({ children }) => {
 	const priceInStage = async () => {
 		try {
 			let contract;
-			if (chainId === maticChainAddress) {
-				const provider = new ethers.providers.JsonRpcProvider(polyRPC);
-				contract = new ethers.Contract(
-					presaleContractPoly,
-					presaleABI,
-					provider
-				);
-			}
+
+			const provider = new ethers.providers.JsonRpcProvider(polyRPC);
+			contract = new ethers.Contract(presaleContractPoly, presaleABI, provider);
+
 			if (contract === undefined) return;
 			const pricePerStage = await contract.pricePerStage(Number(stage));
-			console.log(pricePerStage);
 			setPrice(Number(ethers.utils.formatEther(pricePerStage.toString())));
 		} catch (error) {
 			console.log(error);

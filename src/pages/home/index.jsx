@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { SiBnbchain } from "react-icons/si";
+
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import ServicesComp from "../../components/servicesComp";
-import { LuAlignHorizontalJustifyCenter } from "react-icons/lu";
-import { TbHourglassHigh } from "react-icons/tb";
+
 import { IoCopyOutline } from "react-icons/io5";
 import { services, teamData } from "../../data";
 import SectionHeading from "../../components/servicesComp/sectionHeading";
@@ -53,7 +52,7 @@ const Home = () => {
 		const newPice = e.target.value / price;
 		setTokenPrice(newPice);
 	};
-	const contractAddress = "0x4C2e29dbc437C4b781963E5B2B393b1D4ea64b19";
+	const contractAddress = "0x1f131b6b30C3982b7EaaDf6345AB5C4b762E9AC1";
 
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText(contractAddress);
@@ -89,90 +88,9 @@ const Home = () => {
 										We provide real access to treatment for individuals with
 										mental illness and addiction
 									</p>
-									{/* <p className="md:text-xl text-lg font-medium text-white  ">
-                  Provide real access to treatment for individuals with mental
-                  illness and addiction
-                </p> */}
 								</div>
 								<div className="md:w-1/2 w-full flex md:justify-end  justify-center">
 									<div className="max-w-[380px] w-full bg-light-secondary md:p-[20px] p-[15px] rounded-xl flex flex-col gap-1">
-										{/* <div className="flex justify-between flex-col gap-0.5">
-                      <h3 className="md:text-2xl text-xl font-bold text-white text-center ">
-                        ICO
-                      </h3>
-                      <h3 className="md:text-lg text-base font-bold text-white ">
-                        TherapyDogCoin RXDOG for $0.0001
-                      </h3>
-                    </div>
-                    <div className="f-col">
-                      <p className="md:text-sm text-xs font-medium text-white ">
-                        ICO at $0.0001
-                      </p>
-                      <p className="md:text-sm text-xs font-medium text-white ">
-                        Listing at $0.001
-                      </p>
-                    </div>
-                    <div className="relative before:absolute before:content-[' '] before:left-1/2 before:-translate-x-1/2 before:z-0 before:w-full before:h-[1px] before:bg-white before:m-auto"></div>
-                    <div className="f-col gap-0.5">
-                      <h3 className="md:text-lg text-base font-bold text-white">
-                        Reform mental health services
-                      </h3>
-                      <p className="md:text-sm text-xs font-medium text-white">
-                        Increase mental health and treatment{" "}
-                      </p>
-                      <Tabs>
-                        <div className="flex flex-col gap-0.5 justify-start items-start">
-                          
-                          <TabList>
-                            <div className=" text-nowrap   flex flex-wrap ">
-                              <Tab>
-                                <div className="tab">Stage 1</div>
-                              </Tab>
-                              <Tab>
-                                <span className="tab-no-radius">Stage 2</span>
-                              </Tab>
-                              <Tab>
-                                <span className="tab-r">Stage 3</span>
-                              </Tab>
-                            </div>
-                          </TabList>
-
-                          <div className="w-full">
-                            <TabPanel>
-                              <div className="md:rounded-lg relative p-[2px] bg-white w-full ">
-                                <input
-                                  value={"$0.0001"}
-                                  className="card-input"
-                                  type="text"
-                                />
-                              </div>
-                            </TabPanel>
-                            <TabPanel>
-                              <div className="md:rounded-lg relative p-[2px] bg-white w-full ">
-                                <input
-                                  value={"$0.0004"}
-                                  className="card-input"
-                                  type="text"
-                                />
-                              </div>
-                            </TabPanel>
-                            <TabPanel>
-                              <div className="md:rounded-lg relative p-[2px] bg-white w-full ">
-                                <input
-                                  value={"$0.0008"}
-                                  className="card-input"
-                                  type="text"
-                                />
-                              </div>
-                            </TabPanel>
-                          </div>
-                        </div>
-                      </Tabs>
-                      <p className="md:text-sm text-xs font-medium text-white">
-                        Last chance before it gets listed at $0.001
-                      </p>
-                    </div> */}
-
 										<div className="flex flex-between items-center">
 											<h4 className="md:text-2xl text-xl font-bold text-white text-center">
 												Presale is live{" "}
@@ -225,7 +143,6 @@ const Home = () => {
 												</TabList>
 
 												<div className="w-full">
-													{/* tab1 */}
 													<TabPanel>
 														<div className="flex flex-col gap-1">
 															<div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
@@ -261,17 +178,8 @@ const Home = () => {
 																/>
 															</div>
 														</div>
-														{/* <div className="md:rounded-lg relative p-[2px] bg-white w-full ">
-                              <input
-                                value={0}
-                                className="card-input"
-                                type="text"
-                              />
-                            </div> */}
 													</TabPanel>
-													{/* tab1 */}
 
-													{/* tab2 */}
 													<TabPanel>
 														<div className="flex flex-col gap-1">
 															<div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
@@ -311,7 +219,6 @@ const Home = () => {
 															</div>
 														</div>
 													</TabPanel>
-													{/* tab2 */}
 												</div>
 											</div>
 										</Tabs>
@@ -332,10 +239,6 @@ const Home = () => {
 											{currentAccount ? (
 												<button
 													className="btn bg-secondary text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
-													// onClick={() => {
-													//   setIsLoadingContracts(true);
-													//   handleBuy();
-													// }}
 													onClick={buyHandler}
 												>
 													Buy
@@ -344,7 +247,6 @@ const Home = () => {
 												<button
 													className="btn bg-secondary text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
 													onClick={connectWallet}
-													// onClick={() => open()}
 												>
 													connect wallet
 												</button>

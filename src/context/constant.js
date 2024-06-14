@@ -2,12 +2,12 @@
 import therapy from "./therapyABI.json";
 import erc20 from "./erc20.json";
 
-export const presaleContractPoly = "0xbEAd6d2b2e310F3baB948bd394727853da1EB50f";
+export const presaleContractPoly = "0xa4E0b6b209EaD16BB97e4a22e73Ff8f0d323344b";
 
-export const usdtContractPoly = "0x81b0F725aa1BbDEc85518495E9413Cea08aB7440";
+export const usdtContractPoly = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
 
 export const presaleABI = therapy;
-export const id = 11155111
+export const id = 1;
 export const erc20ABI = erc20;
 export const polyRPC =
-	"https://eth-sepolia.g.alchemy.com/v2/Ne2TEobtLoImEvWq7oJXrjzlf3ZLOC69";
+	"https://eth-mainnet.g.alchemy.com/v2/38Gjw7EysPUBxh0MEZ_x8AEgHnfRVwCQ";
