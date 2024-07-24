@@ -111,6 +111,14 @@ const Layout = () => {
               team
             </button>
 
+            <a
+              href="Therapy_dog_coin_whitepaper.pdf" // replace with the actual path to your PDF file
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-link"
+            >
+              White Paper
+            </a>
             {/* <span className="nav-link scrollto">about</span>
             <span className="nav-link scrollto">services</span>
             <span className="nav-link scrollto">tokenomics</span>
