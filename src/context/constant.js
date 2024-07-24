@@ -11,3 +11,6 @@ export const id = 1;
 export const erc20ABI = erc20;
 export const polyRPC =
 	"https://eth-mainnet.g.alchemy.com/v2/38Gjw7EysPUBxh0MEZ_x8AEgHnfRVwCQ";
+// https://etherscan.io/token/0x1f131b6b30c3982b7eaadf6345ab5c4b762e9ac1
+// 0xe54e8eB6F71b98b5A29f5EC9f4e924707ed7eBf6 total
+// 0x62bAbFD908592308370E06f1Bc62301Afbe74cC8 presale wallet

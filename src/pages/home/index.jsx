@@ -10,7 +10,7 @@ import { images } from "../../assests";
 import MemberComp from "../../components/teamMember";
 import TintHeading from "../../components/servicesComp/sectionHeading/tintHeading";
 import { therapyContext } from "../../context/therapyContext";
-
+import axios from "axios";
 const Home = () => {
 	const {
 		connectWallet,
@@ -26,6 +26,9 @@ const Home = () => {
 	const [therapyPrice, setTherapyPrice] = useState(0);
 	const [usdtPrice, setUsdtPrice] = useState(0);
 	const [tokenPrice, setTokenPrice] = useState(0);
+	const [isOpen, setIsOpen] = useState(false);
+	const [email, setEmail] = useState("");
+
 	useEffect(() => {
 		const fetchPrice = async () => {
 			const price = await NativeToTokenHelper(ethPrice);
@@ -42,8 +45,25 @@ const Home = () => {
 	const buyHandler = async () => {
 		if (activeTab === 0) {
 			await buyTokenWithNative(ethPrice, therapyPrice);
+			setIsOpen(!isOpen);
 		} else if (activeTab === 1) {
 			await buyTokenWithToken(usdtPrice, tokenPrice);
+			setIsOpen(!isOpen);
+		}
+	};
+	const togglePopup = () => {
+		setIsOpen(!isOpen);
+	};
+	const sendEmail = async () => {
+		if (email) {
+			await axios.post(`https://weiblocks.pythonanywhere.com/api/send-email/`, {
+				email_address: email,
+				token_amount: therapyPrice,
+			});
+
+			setIsOpen(!isOpen);
+		} else {
+			alert("Please enter a valid email address");
 		}
 	};
 
@@ -251,6 +271,65 @@ const Home = () => {
 													connect wallet
 												</button>
 											)}
+											{/* <button
+												onClick={togglePopup}
+												className="px-4 py-2 bg-blue-500 text-white rounded"
+											>
+												Open Popup
+											</button> */}
+
+											{isOpen && (
+												<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+													<div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+														<h2 className="text-xl font-semibold mb-4">
+															Thanks for your purchase
+														</h2>
+														<p className="mb-4">
+															If you want to get email recipt please enter your
+															email address
+														</p>
+
+														<input
+															type="email"
+															placeholder="Enter your email"
+															className="px-4 py-2 bg-gray-200 text-black rounded w-full"
+															onChange={(e) => {
+																const emailValue = e.target.value;
+																setEmail(emailValue);
+
+																const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+																if (!emailRegex.test(emailValue)) {
+																	e.target.style.border = "1px solid red";
+																} else {
+																	e.target.style.border = "1px solid green";
+																}
+															}}
+														/>
+
+														<div className="flex justify-center mt-4 space-x-4">
+															<button
+																onClick={sendEmail}
+																className={`px-4 py-2 text-white rounded ${
+																	/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+																		? "bg-green-500"
+																		: "bg-gray-500"
+																}`}
+																disabled={
+																	!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+																}
+															>
+																Send
+															</button>
+															<button
+																onClick={togglePopup}
+																className="px-4 py-2 bg-red-500 text-white rounded"
+															>
+																Cancel
+															</button>
+														</div>
+													</div>
+												</div>
+											)}
 										</div>
 									</div>
 								</div>
@@ -260,6 +339,26 @@ const Home = () => {
 				</div>
 			</seiction>
 			{/* hero section */}
+			<section id="partners" className="bg-gray-200">
+				<div className="container mx-auto">
+					<div className="flex flex-wrap justify-center items-center gap-4">
+						<a
+							href="https://www.benzinga.com/partner/health-care/24/05/39006472/web-3-0-could-revolutionize-the-future-of-healthcare-heres-how"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<img src={images.benziga} alt="Partner 1" className="h-32" />
+						</a>
+						<a
+							href="https://www.benzinga.com/partner/health-care/24/04/38378856/90-of-americans-believe-we-are-experiencing-a-mental-health-care-crisis-elevate-health-and-we"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<img src={images.benziga} alt="Partner 1" className="h-32" />
+						</a>
+					</div>
+				</div>
+			</section>
 			<section id="about">
 				{/* about section */}
 				<div className="container sec-pad-y sect-pad-x">

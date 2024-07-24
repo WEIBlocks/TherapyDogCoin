@@ -17,6 +17,7 @@ import CLINICAL_PSYCHOLOGIST from "./Dr._Carolyn_Dennett_PsyD.png";
 import founder4 from "./founder4.png";
 import eth from "./Etherium.svg";
 import tether from "./Tether.svg";
+import benziga from "./benzinga.png";
 export const images = {
   exclamation,
   management,
@@ -37,4 +38,5 @@ export const images = {
   about3,
   eth,
   tether,
+  benziga,
 };
