@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import { TabPanel, Tabs } from "react-tabs";
 import ServicesComp from "../../components/servicesComp";
-
 import { IoCopyOutline } from "react-icons/io5";
 import { services, teamData } from "../../data";
 import SectionHeading from "../../components/servicesComp/sectionHeading";
@@ -11,44 +9,100 @@ import MemberComp from "../../components/teamMember";
 import TintHeading from "../../components/servicesComp/sectionHeading/tintHeading";
 import { therapyContext } from "../../context/therapyContext";
 import axios from "axios";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import "@solana/wallet-adapter-react-ui/styles.css";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { toast } from "react-toastify";
+import { ethers } from "ethers";
+import {
+	PublicKey,
+	LAMPORTS_PER_SOL,
+	Transaction,
+	SystemProgram,
+} from "@solana/web3.js";
 const Home = () => {
+	const { tokenBalance } = useContext(therapyContext);
+	const { connection } = useConnection();
 	const {
-		connectWallet,
-		currentAccount,
-		stage,
-		price,
-		NativeToTokenHelper,
-		buyTokenWithNative,
-		buyTokenWithToken,
-		tokenBalance,
-	} = useContext(therapyContext);
+		publicKey: fromPublicKey,
+		sendTransaction,
+		signMessage,
+		connected,
+	} = useWallet();
 	const [ethPrice, setEthPrice] = useState(0);
 	const [therapyPrice, setTherapyPrice] = useState(0);
-	const [usdtPrice, setUsdtPrice] = useState(0);
-	const [tokenPrice, setTokenPrice] = useState(0);
 	const [isOpen, setIsOpen] = useState(false);
 	const [email, setEmail] = useState("");
-
-	useEffect(() => {
-		const fetchPrice = async () => {
-			const price = await NativeToTokenHelper(ethPrice);
-			setTherapyPrice(price);
-		};
-		fetchPrice();
-	}, [ethPrice]);
-
+	const [solanaPrice, setSolanaPrice] = useState(0);
 	const [activeTab, setActiveTab] = useState(0);
+	const [presaleDetails, setPresaleDetails] = useState({
+		total_amount_in_usd: 0,
+		total_token_sent: 0,
+	});
 	const handleTabChange = (index) => {
 		setActiveTab(index);
 	};
+	const waitForSolanaSignature = async () => {
+		if (connected) {
+			const randomString = Math.random().toString(36).slice(2);
+			const message = `Please sign this message to purchase $RXDOG:${randomString}`;
+			const signatureUint8 = await signMessage(
+				new TextEncoder().encode(message)
+			);
 
+			const signature = ethers.utils.base58.encode(signatureUint8);
+			return { signature, message };
+		}
+	};
+	const transferTokens = async (signature, message, transactionHash) => {
+		const data = {
+			userWallet: fromPublicKey.toString(),
+			transactionHash: transactionHash,
+			signature: signature,
+			message: message,
+		};
+		const response = await axios.post(
+			"http://localhost:3000/send-tokens",
+			data
+		);
+		console.log(response.data);
+	};
 	const buyHandler = async () => {
-		if (activeTab === 0) {
-			await buyTokenWithNative(ethPrice, therapyPrice);
-			setIsOpen(!isOpen);
-		} else if (activeTab === 1) {
-			await buyTokenWithToken(usdtPrice, tokenPrice);
-			setIsOpen(!isOpen);
+		try {
+			var { signature, message } = await waitForSolanaSignature();
+			let balance = await connection.getBalance(new PublicKey(fromPublicKey));
+			let l = balance / LAMPORTS_PER_SOL;
+			if (Number(ethPrice) > l) {
+				toast.error("Insufficient Balance");
+				return;
+			}
+			const lamports = Number(ethPrice) * LAMPORTS_PER_SOL;
+			const transaction = new Transaction().add(
+				SystemProgram.transfer({
+					fromPubkey: fromPublicKey,
+					toPubkey: new PublicKey(
+						"2DG2dYw1r4bhHiaANYkKbQvsqz8PVmz5j2WqzUJANek4"
+					),
+					lamports,
+				})
+			);
+
+			const hash = await sendTransaction(transaction, connection);
+			const latestBlockHash = await connection.getLatestBlockhash();
+
+			transaction.recentBlockhash = latestBlockHash.blockhash;
+			transaction.feePayer = fromPublicKey;
+			await connection.confirmTransaction({
+				signature: hash,
+				lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+				blockhash: latestBlockHash.blockhash,
+			});
+
+			await transferTokens(signature, message, hash);
+			await totalTokenSoldAndAmountRaised();
+			toast.success("Transaction Successful");
+		} catch (err) {
+			console.log(err);
 		}
 	};
 	const togglePopup = () => {
@@ -67,26 +121,38 @@ const Home = () => {
 		}
 	};
 
-	const usdtChangeHandler = (e) => {
-		setUsdtPrice(e.target.value);
-		const newPice = e.target.value / price;
-		setTokenPrice(newPice);
+	// const usdtChangeHandler = (e) => {
+	// 	const newPice = e.target.value / solanaPrice;
+	// 	setTokenPrice(newPice);
+	// };
+	const ethChangeHandler = (e) => {
+		setEthPrice(e.target.value);
+		const newPice = Number(e.target.value) * Number(solanaPrice);
+		const totalToken = newPice / 0.0001;
+		setTherapyPrice(totalToken.toFixed(2));
 	};
-	const contractAddress = "0x1f131b6b30C3982b7EaaDf6345AB5C4b762E9AC1";
+	const contractAddress = "mX8c9EF1Sq7CAiBd9H3FQ6LUnKFqheWNSayVTi2rBrb";
 
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText(contractAddress);
 	};
-	function formatEthereumAddress(address) {
-		// Extract the first four characters
-		const firstFour = address.slice(0, 4);
-		// Extract the last four characters
-		const lastFour = address.slice(-4);
-		// Return the formatted string
-		return `${firstFour}...${lastFour}`;
+	async function fetchData() {
+		const solanaPriceResponse = await axios.get(
+			"https://api.dexscreener.com/latest/dex/pairs/bsc/0x9f5a0ad81fe7fd5dfb84ee7a0cfb83967359bd90"
+		);
+		const solanaUsdPrice = solanaPriceResponse.data.pair.priceUsd;
+		setSolanaPrice(solanaUsdPrice);
 	}
-
-	const formattedAddress = formatEthereumAddress(currentAccount);
+	async function totalTokenSoldAndAmountRaised() {
+		const response = await axios.get(
+			"http://localhost:3000/total-collected-amount"
+		);
+		setPresaleDetails(response.data);
+	}
+	useEffect(() => {
+		fetchData();
+		totalTokenSoldAndAmountRaised();
+	}, []);
 
 	return (
 		<>
@@ -116,14 +182,11 @@ const Home = () => {
 												Presale is live{" "}
 												<span className="text-3xl text-green-400">•</span>
 											</h4>
-											<span className="text-tint-purple md:text-xl text-lg md:font-semibold font-normal capitalize">
-												STAGE {stage + 1}
-											</span>
 										</div>
 
 										<div className="f-col">
 											<p className="md:text-sm text-xs font-medium text-white ">
-												ICO at ${price}
+												ICO at $0.0001
 											</p>
 											<p className="md:text-sm text-xs font-medium text-white ">
 												Listing at $0.001
@@ -134,34 +197,18 @@ const Home = () => {
 										<h4 className="md:text-lg text-base font-bold text-white capitalize">
 											PURCHASE $RXDOG
 										</h4>
-										<Tabs selectedIndex={activeTab} onSelect={handleTabChange}>
+										<div className="flex flex-col gap-1">
+											<p className="md:text-xl text-lg font-bold text-white capitalize">
+												Total amount raised: $
+												{presaleDetails.total_amount_in_usd.toFixed(2)}
+											</p>
+										</div>
+										<Tabs
+											selectedIndex={activeTab}
+											onSelect={handleTabChange}
+											key={activeTab}
+										>
 											<div className="flex flex-col gap-1 justify-start items-start">
-												<TabList>
-													<div className=" text-nowrap flex flex-wrap ">
-														<Tab>
-															<div className="tab text-base flex md:gap-0.5 gap-[05px] items-center ">
-																<img
-																	src={images.eth}
-																	alt="ether"
-																	className="w-[20px] h-[20px]"
-																/>
-																<span className="uppercase">eth</span>
-															</div>
-														</Tab>
-
-														<Tab>
-															<div className="tab-r text-base flex md:gap-0.5 gap-[05px] items-center">
-																<img
-																	src={images.tether}
-																	alt="ether"
-																	className="w-[20px] h-[20px]"
-																/>
-																<span className="uppercase">usdt</span>
-															</div>
-														</Tab>
-													</div>
-												</TabList>
-
 												<div className="w-full">
 													<TabPanel>
 														<div className="flex flex-col gap-1">
@@ -175,7 +222,7 @@ const Home = () => {
 																	className="card-input"
 																	type="number"
 																	value={ethPrice}
-																	onChange={(e) => setEthPrice(e.target.value)}
+																	onChange={ethChangeHandler}
 																/>
 															</div>
 															<div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
@@ -200,7 +247,7 @@ const Home = () => {
 														</div>
 													</TabPanel>
 
-													<TabPanel>
+													{/* <TabPanel>
 														<div className="flex flex-col gap-1">
 															<div className="flex items-center p-0.5  bg-white md:rounded-md rounded-sm overflow-hidden gap-0.75">
 																<img
@@ -238,15 +285,17 @@ const Home = () => {
 																/>
 															</div>
 														</div>
-													</TabPanel>
+													</TabPanel> */}
 												</div>
 											</div>
 										</Tabs>
-										{currentAccount && (
+										{fromPublicKey && (
 											<div className="f-col">
 												<p className="md:text-sm text-xs font-medium text-white capitalize">
 													<span className="font-bold">wallet:</span>{" "}
-													{formattedAddress}
+													{fromPublicKey.toString().slice(0, 4) +
+														"..." +
+														fromPublicKey.toString().slice(-4)}
 												</p>
 												<p className="md:text-sm text-xs font-medium text-white capitalize">
 													<span className="font-bold">balance:</span>{" "}
@@ -256,7 +305,7 @@ const Home = () => {
 										)}
 										<div className="flex md:flex-row gap-1 flex-col flex-between items-center">
 											<span className="md:text-sm text-xs font-medium text-white "></span>
-											{currentAccount ? (
+											{fromPublicKey ? (
 												<button
 													className="btn bg-secondary text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
 													onClick={buyHandler}
@@ -264,19 +313,8 @@ const Home = () => {
 													Buy
 												</button>
 											) : (
-												<button
-													className="btn bg-secondary text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
-													onClick={connectWallet}
-												>
-													connect wallet
-												</button>
+												<WalletMultiButton />
 											)}
-											{/* <button
-												onClick={togglePopup}
-												className="px-4 py-2 bg-blue-500 text-white rounded"
-											>
-												Open Popup
-											</button> */}
 
 											{isOpen && (
 												<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -521,7 +559,7 @@ const Home = () => {
 									</h4>
 									<div className="flex gap-[5px] items-center md:text-base text-sm md:font-bold font-semibold ">
 										<span className="text-wrap break-words break-all">
-											0x4C2e29dbc437C4b781963E5B2B393b1D4ea64b19
+											mX8c9EF1Sq7CAiBd9H3FQ6LUnKFqheWNSayVTi2rBrb
 										</span>
 
 										<span onClick={copyToClipboard} className="cursor-pointer">
@@ -537,13 +575,13 @@ const Home = () => {
 							<div className="md:p-[24px] p-1 bg-secondary md:rounded-2xl rounded-xl md:col-span-1 col-span-3 text-white">
 								<div className="flex flex-col gap-0.75 items-start md:text-base text-sm md:font-bold font-semibold ">
 									<span>Decimals:</span>
-									<span>18</span>
+									<span>8</span>
 								</div>
 							</div>
 							<div className="md:p-[24px] p-1 bg-secondary md:rounded-2xl rounded-xl md:col-span-1 col-span-3 text-white">
 								<div className="flex flex-col gap-0.75 items-start md:text-base text-sm md:font-bold font-semibold ">
 									<span>Network:</span>
-									<span>Ethereum</span>
+									<span>Solana</span>
 								</div>
 							</div>
 							<div className="md:p-[24px] p-1 bg-secondary md:rounded-2xl rounded-xl md:col-span-1 col-span-3 text-white">

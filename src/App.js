@@ -4,65 +4,38 @@ import Layout from "./layout/Layout";
 import Home from "./pages/home";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { ethers } from "ethers";
-// import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react'
+import * as walletAdapterReact from "@solana/wallet-adapter-react";
+import * as walletAdapterWallets from "@solana/wallet-adapter-wallets";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import "@solana/wallet-adapter-react-ui/styles.css";
 
-// const projectId = '0b23065559254ced9aca22e0aa943d4c'
-// // 2. Set chains
-// const mainnet = {
-//   chainId: 1,
-//   name: 'Ethereum',
-//   currency: 'ETH',
-//   explorerUrl: 'https://etherscan.io',
-//   rpcUrl: 'https://cloudflare-eth.com'
-// }
-
-// const metadata = {
-//   name: 'My Website',
-//   description: 'My Website description',
-//   url: 'https://mywebsite.com', // origin must match your domain & subdomain
-//   icons: ['https://avatars.mywebsite.com/']
-// }
-
-// const ethersConfig = defaultConfig({
-//   /*Required*/
-//   metadata,
-
-//   /*Optional*/
-//   enableEIP6963: true, // true by default
-//   enableInjected: true, // true by default
-//   enableCoinbase: true, // true by default
-//   rpcUrl: '...', // used for the Coinbase SDK
-//   defaultChainId: 1 // used for the Coinbase SDK
-// })
-
-// createWeb3Modal({
-//   ethersConfig,
-//   chains: [mainnet],
-//   projectId,
-//   enableAnalytics: true // Optional - defaults to your Cloud configuration
-// })
+const QUICKNODE_RPC = "https://api.devnet.solana.com";
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Layout />,
-      children: [
-        {
-          path: "/",
-          element: <Home />,
-        },
-      ],
-    },
-  ]);
+	const endpoint = QUICKNODE_RPC;
+	const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
+	const router = createBrowserRouter([
+		{
+			path: "/",
+			element: <Layout />,
+			children: [
+				{
+					path: "/",
+					element: <Home />,
+				},
+			],
+		},
+	]);
 
-  return (
-    <>
-      <ToastContainer />
-
-      <RouterProvider router={router} />
-    </>
-  );
+	return (
+		<walletAdapterReact.ConnectionProvider endpoint={endpoint}>
+			<walletAdapterReact.WalletProvider wallets={wallets}>
+				<WalletModalProvider>
+					<ToastContainer />
+					<RouterProvider router={router} />
+				</WalletModalProvider>
+			</walletAdapterReact.WalletProvider>
+		</walletAdapterReact.ConnectionProvider>
+	);
 }
 
 export default App;

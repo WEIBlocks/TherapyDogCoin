@@ -15,28 +15,30 @@ import EXECUTIVE_DIRECTOR from "./Jennifer_Hrbek_LCSW.png";
 import MEDICAL_DIRECTOR from "./Dr_Mohamed_Elsamra_MD.png";
 import CLINICAL_PSYCHOLOGIST from "./Dr._Carolyn_Dennett_PsyD.png";
 import founder4 from "./founder4.png";
-import eth from "./Etherium.svg";
+import eth from "./solana.svg";
 import tether from "./Tether.svg";
 import benziga from "./benzinga.png";
+import jibran from "./jibran.jpg";
 export const images = {
-  exclamation,
-  management,
-  management2,
-  Graph,
-  Roadmap,
-  TeamMember,
-  brandLogo,
-  outPatient,
-  inTensiveOutPatient,
-  inPatient,
-  EXECUTIVE_DIRECTOR,
-  MEDICAL_DIRECTOR,
-  CLINICAL_PSYCHOLOGIST,
-  founder4,
-  about1,
-  about2,
-  about3,
-  eth,
-  tether,
-  benziga,
+	exclamation,
+	management,
+	management2,
+	Graph,
+	Roadmap,
+	TeamMember,
+	brandLogo,
+	outPatient,
+	inTensiveOutPatient,
+	inPatient,
+	EXECUTIVE_DIRECTOR,
+	MEDICAL_DIRECTOR,
+	CLINICAL_PSYCHOLOGIST,
+	founder4,
+	about1,
+	about2,
+	about3,
+	eth,
+	tether,
+	benziga,
+  jibran
 };
