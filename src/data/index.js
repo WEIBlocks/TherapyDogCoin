@@ -24,7 +24,7 @@ export const services = [
 export const teamData = [
 	{
 		id: 1,
-		name: "Jennifer Hrbek, LCSW",
+		name: " Mrs. J. Hrbeck, LCSW",
 		desigination: "EXECUTIVE DIRECTOR",
 		profilePic: images.EXECUTIVE_DIRECTOR,
 	},
@@ -36,7 +36,7 @@ export const teamData = [
 	},
 	{
 		id: 3,
-		name: "Dr. Carolyn Dennett, PsyD",
+		name: " Dr C. Dennet, PsyD",
 		desigination: "CLINICAL PSYCHOLOGIST",
 		profilePic: images.CLINICAL_PSYCHOLOGIST,
 	},

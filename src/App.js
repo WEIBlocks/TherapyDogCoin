@@ -8,6 +8,8 @@ import * as walletAdapterReact from "@solana/wallet-adapter-react";
 import * as walletAdapterWallets from "@solana/wallet-adapter-wallets";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import "@solana/wallet-adapter-react-ui/styles.css";
+import { Buffer } from 'buffer';  
+import { useEffect } from "react";
 
 const QUICKNODE_RPC = "https://api.devnet.solana.com";
 function App() {
@@ -26,6 +28,10 @@ function App() {
 		},
 	]);
 
+
+	useEffect(() => {
+		window.Buffer = Buffer;	
+},[])	
 	return (
 		<walletAdapterReact.ConnectionProvider endpoint={endpoint}>
 			<walletAdapterReact.WalletProvider wallets={wallets}>

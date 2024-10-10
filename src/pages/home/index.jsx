@@ -20,139 +20,199 @@ import {
 	Transaction,
 	SystemProgram,
 } from "@solana/web3.js";
+import Modal from "../../components/HowToBuyModal/Modal";
 const Home = () => {
-	const { tokenBalance } = useContext(therapyContext);
-	const { connection } = useConnection();
-	const {
-		publicKey: fromPublicKey,
-		sendTransaction,
-		signMessage,
-		connected,
-	} = useWallet();
-	const [ethPrice, setEthPrice] = useState(0);
-	const [therapyPrice, setTherapyPrice] = useState(0);
-	const [isOpen, setIsOpen] = useState(false);
-	const [email, setEmail] = useState("");
-	const [solanaPrice, setSolanaPrice] = useState(0);
-	const [activeTab, setActiveTab] = useState(0);
-	const [presaleDetails, setPresaleDetails] = useState({
-		total_amount_in_usd: 0,
-		total_token_sent: 0,
-	});
-	const handleTabChange = (index) => {
-		setActiveTab(index);
-	};
-	const waitForSolanaSignature = async () => {
-		if (connected) {
-			const randomString = Math.random().toString(36).slice(2);
-			const message = `Please sign this message to purchase $RXDOG:${randomString}`;
-			const signatureUint8 = await signMessage(
-				new TextEncoder().encode(message)
-			);
+	const [isOpenModal, setIsOpenModal] = useState(false);
+    const { tokenBalance } = useContext(therapyContext);
+    const { connection } = useConnection();
+    const {
+        publicKey: fromPublicKey,
+        sendTransaction,
+        signMessage,
+        connected,
+    } = useWallet();
+    const [ethPrice, setEthPrice] = useState(0);
+    const [therapyPrice, setTherapyPrice] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
+    const [email, setEmail] = useState("");
+    const [solanaPrice, setSolanaPrice] = useState(0);
+    const [activeTab, setActiveTab] = useState(0);
+    const [presaleDetails, setPresaleDetails] = useState({
+        total_amount_in_usd: 0,
+        total_token_sent: 0,
+    });
 
-			const signature = ethers.utils.base58.encode(signatureUint8);
-			return { signature, message };
-		}
-	};
-	const transferTokens = async (signature, message, transactionHash) => {
-		const data = {
-			userWallet: fromPublicKey.toString(),
-			transactionHash: transactionHash,
-			signature: signature,
-			message: message,
-		};
-		const response = await axios.post(
-			"http://localhost:3000/send-tokens",
-			data
-		);
-		console.log(response.data);
-	};
-	const buyHandler = async () => {
-		try {
-			var { signature, message } = await waitForSolanaSignature();
-			let balance = await connection.getBalance(new PublicKey(fromPublicKey));
-			let l = balance / LAMPORTS_PER_SOL;
-			if (Number(ethPrice) > l) {
-				toast.error("Insufficient Balance");
-				return;
+    const handleTabChange = (index) => {
+        setActiveTab(index);
+    };
+
+    const waitForSolanaSignature = async () => {
+        if (connected) {
+            const randomString = Math.random().toString(36).slice(2);
+            const message = `Please sign this message to purchase $RXDOG: ${randomString}`;
+            const signatureUint8 = await signMessage(
+                new TextEncoder().encode(message)
+            );
+
+            const signature = ethers.utils.base58.encode(signatureUint8);
+            return { signature, message };
+        }
+    };
+
+    const transferTokens = async (signature, message, transactionHash) => {
+        const data = {
+            userWallet: fromPublicKey.toString(),
+            transactionHash: transactionHash,
+            signature: signature,
+            message: message,
+        };
+        return await axios.post(
+            "http://localhost:3000/send-tokens",
+            data
+        );
+    };
+
+    const buyHandler = async () => {
+        try {
+            // Step 1: Wait for Solana signature
+
+			if (Number(ethPrice) <= 0) {
+				toast.error("Transaction failed: ETH price must be greater than 0.");
+				return; // Exit the function early
 			}
-			const lamports = Number(ethPrice) * LAMPORTS_PER_SOL;
-			const transaction = new Transaction().add(
-				SystemProgram.transfer({
-					fromPubkey: fromPublicKey,
-					toPubkey: new PublicKey(
-						"2DG2dYw1r4bhHiaANYkKbQvsqz8PVmz5j2WqzUJANek4"
-					),
-					lamports,
-				})
-			);
+			
+            const { signature, message } = await waitForSolanaSignature();
 
-			const hash = await sendTransaction(transaction, connection);
-			const latestBlockHash = await connection.getLatestBlockhash();
+            // Step 2: Check balance
+            const balance = await connection.getBalance(new PublicKey(fromPublicKey));
+            const l = balance / LAMPORTS_PER_SOL;
 
-			transaction.recentBlockhash = latestBlockHash.blockhash;
-			transaction.feePayer = fromPublicKey;
-			await connection.confirmTransaction({
-				signature: hash,
-				lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
-				blockhash: latestBlockHash.blockhash,
-			});
+            if (Number(ethPrice) > l) {
+                toast.error("Insufficient Balance");
+                return;
+            }
 
-			await transferTokens(signature, message, hash);
-			await totalTokenSoldAndAmountRaised();
-			toast.success("Transaction Successful");
-		} catch (err) {
-			console.log(err);
-		}
-	};
-	const togglePopup = () => {
-		setIsOpen(!isOpen);
-	};
-	const sendEmail = async () => {
-		if (email) {
-			await axios.post(`https://weiblocks.pythonanywhere.com/api/send-email/`, {
-				email_address: email,
-				token_amount: therapyPrice,
-			});
+            // Step 3: Prepare transaction
+            const lamports = Number(ethPrice) * LAMPORTS_PER_SOL;
+            const transaction = new Transaction().add(
+                SystemProgram.transfer({
+                    fromPubkey: fromPublicKey,
+                    toPubkey: new PublicKey("2DG2dYw1r4bhHiaANYkKbQvsqz8PVmz5j2WqzUJANek4"),
+                    lamports,
+                })
+            );
 
-			setIsOpen(!isOpen);
-		} else {
-			alert("Please enter a valid email address");
-		}
-	};
+            // Step 4: Send transaction
+            const latestBlockHash = await connection.getLatestBlockhash();
+            transaction.recentBlockhash = latestBlockHash.blockhash;
+            transaction.feePayer = fromPublicKey;
 
-	// const usdtChangeHandler = (e) => {
-	// 	const newPice = e.target.value / solanaPrice;
-	// 	setTokenPrice(newPice);
-	// };
-	const ethChangeHandler = (e) => {
-		setEthPrice(e.target.value);
-		const newPice = Number(e.target.value) * Number(solanaPrice);
-		const totalToken = newPice / 0.0001;
-		setTherapyPrice(totalToken.toFixed(2));
-	};
-	const contractAddress = "mX8c9EF1Sq7CAiBd9H3FQ6LUnKFqheWNSayVTi2rBrb";
+            const hash = await sendTransaction(transaction, connection);
 
-	const copyToClipboard = () => {
-		navigator.clipboard.writeText(contractAddress);
-	};
-	async function fetchData() {
-		const solanaPriceResponse = await axios.get(
-			"https://api.dexscreener.com/latest/dex/pairs/bsc/0x9f5a0ad81fe7fd5dfb84ee7a0cfb83967359bd90"
-		);
-		const solanaUsdPrice = solanaPriceResponse.data.pair.priceUsd;
-		setSolanaPrice(solanaUsdPrice);
-	}
-	async function totalTokenSoldAndAmountRaised() {
-		const response = await axios.get(
-			"http://localhost:3000/total-collected-amount"
-		);
-		setPresaleDetails(response.data);
-	}
-	useEffect(() => {
-		fetchData();
-		totalTokenSoldAndAmountRaised();
-	}, []);
+            // Step 5: Confirm transaction
+            await connection.confirmTransaction({
+                signature: hash,
+                lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+                blockhash: latestBlockHash.blockhash,
+            });
+
+            // Step 6: Transfer tokens and update state
+            await transferTokens(signature, message, hash);
+            await totalTokenSoldAndAmountRaised();
+            toast.success("Transaction Successful");
+
+        } catch (err) {
+            // Enhanced error handling
+            if (axios.isAxiosError(err)) {
+                const responseError = err.response?.data?.message || "Unknown error occurred.";
+                toast.error(`Transaction failed: ${responseError}`);
+            } else if (err.message.includes("Insufficient funds")) {
+                toast.error("Transaction failed: Insufficient funds in your wallet.");
+            }
+			else if (err.message.includes("User rejected the request")) {
+				toast.error("User rejected the request.");
+			} 			
+			else if (err.message.includes("Network error")) {
+                toast.error("Transaction failed: Network error. Please try again later.");
+            } else if (err.message.includes("Signature verification failed")) {
+                toast.error("Transaction failed: Signature verification failed.");
+            } else if (err.message.includes("Transaction timeout")) {
+                toast.error("Transaction failed: Transaction timeout. Please try again.");
+            } else {
+                toast.error("An unexpected error occurred. Please try again.");
+                console.error("Error details:", err); // Log the error details for debugging
+            }
+        }
+    };
+
+    const togglePopup = () => {
+        setIsOpen(!isOpen);
+    };
+
+    const sendEmail = async () => {
+        if (email) {
+            await axios.post(`https://weiblocks.pythonanywhere.com/api/send-email/`, {
+                email_address: email,
+                token_amount: therapyPrice,
+            });
+
+            setIsOpen(!isOpen);
+        } else {
+            alert("Please enter a valid email address");
+        }
+    };
+
+    const ethChangeHandler = (e) => {
+        setEthPrice(e.target.value);
+        const newPrice = Number(e.target.value) * Number(solanaPrice);
+        const totalToken = newPrice / 0.0001;
+        setTherapyPrice(totalToken.toFixed(2));
+    };
+
+    const contractAddress = "mX8c9EF1Sq7CAiBd9H3FQ6LUnKFqheWNSayVTi2rBrb";
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(contractAddress);
+    };
+
+    async function fetchData() {
+        const solanaPriceResponse = await axios.get(
+            "https://api.dexscreener.com/latest/dex/pairs/bsc/0x9f5a0ad81fe7fd5dfb84ee7a0cfb83967359bd90"
+        );
+        const solanaUsdPrice = solanaPriceResponse.data.pair.priceUsd;
+        setSolanaPrice(solanaUsdPrice);
+    }
+
+    async function totalTokenSoldAndAmountRaised() {
+        const response = await axios.get(
+            "http://localhost:3000/total-collected-amount"
+        );
+        setPresaleDetails(response.data);
+    }
+
+    useEffect(() => {
+        fetchData();
+        totalTokenSoldAndAmountRaised();
+    }, []);
+
+
+
+  const faqContent = [
+    {
+      question: "I don’t see the tokens in my wallet!",
+      answer: "Ensure the transaction is confirmed on the Solana blockchain. You may need to manually add the token to Phantom."
+    },
+    {
+      question: "I can’t connect my wallet!",
+      answer: "Ensure your Phantom wallet and browser are up to date. Try clearing your browser cache or switching browsers."
+    },
+    {
+      question: "What happens if the transaction fails?",
+      answer: "If the transaction fails, your SOL will remain in your wallet and you can try the purchase again."
+    },
+    // Add more FAQ questions and answers as needed
+  ];
+
 
 	return (
 		<>
@@ -305,15 +365,31 @@ const Home = () => {
 										)}
 										<div className="flex md:flex-row gap-1 flex-col flex-between items-center">
 											<span className="md:text-sm text-xs font-medium text-white "></span>
+											
+      <button
+        className=" rounded-md w-[45%] py-[10px] bg-secondary text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
+        onClick={() => setIsOpenModal(true)}
+      >
+        How to Buy
+      </button>
+
+      {/* Pass data and state handling to Modal */}
+      {isOpenModal && (
+        <Modal
+          isOpenModal={isOpenModal}
+          onClose={() => setIsOpenModal(false)}
+          faqContent={faqContent}
+        />
+      )}
 											{fromPublicKey ? (
 												<button
-													className="btn bg-secondary text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
+													className=" rounded-md w-[50%] py-[10px] bg-fuchsia-900 text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
 													onClick={buyHandler}
 												>
 													Buy
 												</button>
 											) : (
-												<WalletMultiButton />
+												<WalletMultiButton/>
 											)}
 
 											{isOpen && (
@@ -452,7 +528,7 @@ const Home = () => {
                     over 100 monthly oral MAT prescriptions. Additionally, we
                     have conducted nearly 430 sessions of Intensive Outpatient
                     Groups, and an additional 200 Relapse Prevention groups. */}
-										Over the past 24 months, Elevate has provided 17,939
+										Over the past 24 months, Meditoxcare has provided 17,939
 										individual psychiatry and therapy appointments to more than
 										1,800 clients. Of those, 48% were provided to individuals
 										with Medicaid benefits who are of lower socioeconomic means.
@@ -608,7 +684,7 @@ const Home = () => {
             </h1> */}
 
 							<div className=" max-w-[880px] w-full lg:pt-[48px] md:pt-[34px] pt-[20px]">
-								<img src={images.Roadmap} alt="roadmp" />
+								<img src={"/CHARTT.png"} alt="roadmp" />
 							</div>
 						</div>
 					</div>
