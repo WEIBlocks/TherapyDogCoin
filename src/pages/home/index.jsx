@@ -42,7 +42,7 @@ const Home = () => {
 		total_token_sent: 0,
 	});
 	const [buying, setBuying] = useState(false);
-
+	//
 	const handleTabChange = (index) => {
 		setActiveTab(index);
 	};
