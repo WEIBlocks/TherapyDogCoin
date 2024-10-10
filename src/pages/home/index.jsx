@@ -23,7 +23,7 @@ import {
 import Modal from "../../components/HowToBuyModal/Modal";
 const Home = () => {
 	const [isOpenModal, setIsOpenModal] = useState(false);
-	const { tokenBalance } = useContext(therapyContext);
+	const {} = useContext(therapyContext);
 	const { connection } = useConnection();
 	const {
 		publicKey: fromPublicKey,
@@ -67,7 +67,10 @@ const Home = () => {
 			signature: signature,
 			message: message,
 		};
-		return await axios.post("https://therapybackend-production.up.railway.app/send-tokens", data);
+		return await axios.post(
+			"https://therapybackend-production.up.railway.app/send-tokens",
+			data
+		);
 	};
 
 	const buyHandler = async () => {
@@ -106,7 +109,7 @@ const Home = () => {
 				SystemProgram.transfer({
 					fromPubkey: fromPublicKey,
 					toPubkey: new PublicKey(
-						"2DG2dYw1r4bhHiaANYkKbQvsqz8PVmz5j2WqzUJANek4"
+						"8e25U3kPaAxKS55qz1HiJGp8Dy5HyYPtgjtLwWYut9N1"
 					), // change
 					lamports,
 				})
