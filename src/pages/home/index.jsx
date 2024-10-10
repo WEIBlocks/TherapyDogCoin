@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TabPanel, Tabs } from "react-tabs";
 import ServicesComp from "../../components/servicesComp";
 import { IoCopyOutline } from "react-icons/io5";
@@ -7,7 +7,6 @@ import SectionHeading from "../../components/servicesComp/sectionHeading";
 import { images } from "../../assests";
 import MemberComp from "../../components/teamMember";
 import TintHeading from "../../components/servicesComp/sectionHeading/tintHeading";
-import { therapyContext } from "../../context/therapyContext";
 import axios from "axios";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import "@solana/wallet-adapter-react-ui/styles.css";
@@ -23,7 +22,6 @@ import {
 import Modal from "../../components/HowToBuyModal/Modal";
 const Home = () => {
 	const [isOpenModal, setIsOpenModal] = useState(false);
-	const {} = useContext(therapyContext);
 	const { connection } = useConnection();
 	const {
 		publicKey: fromPublicKey,
@@ -37,6 +35,7 @@ const Home = () => {
 	const [email, setEmail] = useState("");
 	const [solanaPrice, setSolanaPrice] = useState(0);
 	const [activeTab, setActiveTab] = useState(0);
+	const [tokenBalance, setTokenBalance] = useState(0);
 	const [presaleDetails, setPresaleDetails] = useState({
 		total_amount_in_usd: 0,
 		total_token_sent: 0,
@@ -46,7 +45,8 @@ const Home = () => {
 	const handleTabChange = (index) => {
 		setActiveTab(index);
 	};
-
+	// const api = "http://localhost:3000/";
+	const api = "https://therapybackend-production.up.railway.app/";
 	const waitForSolanaSignature = async () => {
 		if (connected) {
 			const randomString = Math.random().toString(36).slice(2);
@@ -67,10 +67,7 @@ const Home = () => {
 			signature: signature,
 			message: message,
 		};
-		return await axios.post(
-			"https://therapybackend-production.up.railway.app/send-tokens",
-			data
-		);
+		return await axios.post(api + "send-tokens", data);
 	};
 
 	const buyHandler = async () => {
@@ -110,7 +107,7 @@ const Home = () => {
 					fromPubkey: fromPublicKey,
 					toPubkey: new PublicKey(
 						"8e25U3kPaAxKS55qz1HiJGp8Dy5HyYPtgjtLwWYut9N1"
-					), // change
+					),
 					lamports,
 				})
 			);
@@ -134,11 +131,12 @@ const Home = () => {
 			await totalTokenSoldAndAmountRaised();
 
 			toast.update(toastId, {
-				render: "Transaction Successful",
+				render: "Congratulations! You have successfully purchased $RXDOG",
 				type: "success",
 				isLoading: false,
 				autoClose: 5000,
 			});
+			await getUserBalance();
 		} catch (err) {
 			// Enhanced error handling
 			if (axios.isAxiosError(err)) {
@@ -252,18 +250,34 @@ const Home = () => {
 		const solanaUsdPrice = solanaPriceResponse.data.pair.priceUsd;
 		setSolanaPrice(solanaUsdPrice);
 	}
-
+	async function getUserBalance() {
+		try {
+			const rx_dog_balance = await axios.get(api + "user-balance", {
+				params: {
+					address: fromPublicKey.toString(),
+				},
+			});
+			setTokenBalance(rx_dog_balance.data.balance.toFixed(2));
+		} catch (err) {
+			console.log(err);
+		}
+	}
 	async function totalTokenSoldAndAmountRaised() {
-		const response = await axios.get(
-			"https://therapybackend-production.up.railway.app/total-collected-amount"
-		);
-		setPresaleDetails(response.data);
+		try {
+			const response = await axios.get(api + "total-collected-amount");
+			setPresaleDetails(response.data);
+		} catch (err) {
+			console.log(err);
+		}
 	}
 
 	useEffect(() => {
 		fetchData();
 		totalTokenSoldAndAmountRaised();
 	}, []);
+	useEffect(() => {
+		getUserBalance();
+	}, [fromPublicKey]);
 
 	const faqContent = [
 		{
@@ -309,7 +323,7 @@ const Home = () => {
 									<div className="max-w-[380px] w-full bg-light-secondary md:p-[20px] p-[15px] rounded-xl flex flex-col gap-1">
 										<div className="flex flex-between items-center">
 											<h4 className="md:text-2xl text-xl font-bold text-white text-center">
-												Presale is live{" "}
+												$RXDOG Presale is live{" "}
 												<span className="text-3xl text-green-400">•</span>
 											</h4>
 										</div>
@@ -324,13 +338,17 @@ const Home = () => {
 										</div>
 										<div className="relative before:absolute before:content-[' '] before:left-1/2 before:-translate-x-1/2 before:z-0 before:w-full before:h-[1px] before:bg-white before:m-auto"></div>
 
-										<h4 className="md:text-lg text-base font-bold text-white capitalize">
-											PURCHASE $RXDOG
-										</h4>
+										{/* <h4 className="md:text-lg text-base font-bold text-white capitalize">
+											PURCHASE 
+										</h4> */}
 										<div className="flex flex-col gap-1">
 											<p className="md:text-xl text-lg font-bold text-white capitalize">
 												Total amount raised: $
 												{presaleDetails.total_amount_in_usd.toFixed(2)}
+											</p>
+											<p className="md:text-xl text-lg font-bold text-white capitalize">
+												<span className="font-bold">balance:</span>{" "}
+												{tokenBalance} $RXDOG
 											</p>
 										</div>
 										<Tabs
@@ -427,10 +445,6 @@ const Home = () => {
 														"..." +
 														fromPublicKey.toString().slice(-4)}
 												</p>
-												{/* <p className="md:text-sm text-xs font-medium text-white capitalize">
-													<span className="font-bold">balance:</span>{" "}
-													{tokenBalance} $RXDOG
-												</p> */}
 											</div>
 										)}
 										<div className="flex md:flex-row gap-1 flex-col flex-between items-center">

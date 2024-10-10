@@ -13,6 +13,7 @@ import { useEffect } from "react";
 
 const QUICKNODE_RPC =
 	"https://mainnet.helius-rpc.com/?api-key=1594af8d-9d2e-4bad-8feb-ff8678480d91";
+// const QUICKNODE_RPC = "https://api.devnet.solana.com";
 function App() {
 	const endpoint = QUICKNODE_RPC;
 	const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
