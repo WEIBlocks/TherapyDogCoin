@@ -23,196 +23,263 @@ import {
 import Modal from "../../components/HowToBuyModal/Modal";
 const Home = () => {
 	const [isOpenModal, setIsOpenModal] = useState(false);
-    const { tokenBalance } = useContext(therapyContext);
-    const { connection } = useConnection();
-    const {
-        publicKey: fromPublicKey,
-        sendTransaction,
-        signMessage,
-        connected,
-    } = useWallet();
-    const [ethPrice, setEthPrice] = useState(0);
-    const [therapyPrice, setTherapyPrice] = useState(0);
-    const [isOpen, setIsOpen] = useState(false);
-    const [email, setEmail] = useState("");
-    const [solanaPrice, setSolanaPrice] = useState(0);
-    const [activeTab, setActiveTab] = useState(0);
-    const [presaleDetails, setPresaleDetails] = useState({
-        total_amount_in_usd: 0,
-        total_token_sent: 0,
-    });
+	const { tokenBalance } = useContext(therapyContext);
+	const { connection } = useConnection();
+	const {
+		publicKey: fromPublicKey,
+		sendTransaction,
+		signMessage,
+		connected,
+	} = useWallet();
+	const [ethPrice, setEthPrice] = useState(0);
+	const [therapyPrice, setTherapyPrice] = useState(0);
+	const [isOpen, setIsOpen] = useState(false);
+	const [email, setEmail] = useState("");
+	const [solanaPrice, setSolanaPrice] = useState(0);
+	const [activeTab, setActiveTab] = useState(0);
+	const [presaleDetails, setPresaleDetails] = useState({
+		total_amount_in_usd: 0,
+		total_token_sent: 0,
+	});
+	const [buying, setBuying] = useState(false);
 
-    const handleTabChange = (index) => {
-        setActiveTab(index);
-    };
+	const handleTabChange = (index) => {
+		setActiveTab(index);
+	};
 
-    const waitForSolanaSignature = async () => {
-        if (connected) {
-            const randomString = Math.random().toString(36).slice(2);
-            const message = `Please sign this message to purchase $RXDOG: ${randomString}`;
-            const signatureUint8 = await signMessage(
-                new TextEncoder().encode(message)
-            );
+	const waitForSolanaSignature = async () => {
+		if (connected) {
+			const randomString = Math.random().toString(36).slice(2);
+			const message = `Please sign this message to purchase $RXDOG: ${randomString}`;
+			const signatureUint8 = await signMessage(
+				new TextEncoder().encode(message)
+			);
 
-            const signature = ethers.utils.base58.encode(signatureUint8);
-            return { signature, message };
-        }
-    };
+			const signature = ethers.utils.base58.encode(signatureUint8);
+			return { signature, message };
+		}
+	};
 
-    const transferTokens = async (signature, message, transactionHash) => {
-        const data = {
-            userWallet: fromPublicKey.toString(),
-            transactionHash: transactionHash,
-            signature: signature,
-            message: message,
-        };
-        return await axios.post(
-            "http://localhost:3000/send-tokens",
-            data
-        );
-    };
+	const transferTokens = async (signature, message, transactionHash) => {
+		const data = {
+			userWallet: fromPublicKey.toString(),
+			transactionHash: transactionHash,
+			signature: signature,
+			message: message,
+		};
+		return await axios.post("https://therapybackend-production.up.railway.app/send-tokens", data);
+	};
 
-    const buyHandler = async () => {
-        try {
-            // Step 1: Wait for Solana signature
-
+	const buyHandler = async () => {
+		setBuying(true);
+		const toastId = toast.loading("Processing transaction...");
+		try {
 			if (Number(ethPrice) <= 0) {
-				toast.error("Transaction failed: ETH price must be greater than 0.");
+				toast.update(toastId, {
+					render: "Transaction failed: SOL amount must be greater than 0.",
+					type: "error",
+					isLoading: false,
+					autoClose: 5000,
+				});
 				return; // Exit the function early
 			}
-			
-            const { signature, message } = await waitForSolanaSignature();
 
-            // Step 2: Check balance
-            const balance = await connection.getBalance(new PublicKey(fromPublicKey));
-            const l = balance / LAMPORTS_PER_SOL;
+			const { signature, message } = await waitForSolanaSignature();
 
-            if (Number(ethPrice) > l) {
-                toast.error("Insufficient Balance");
-                return;
-            }
+			// Step 2: Check balance
+			const balance = await connection.getBalance(new PublicKey(fromPublicKey));
+			const l = balance / LAMPORTS_PER_SOL;
 
-            // Step 3: Prepare transaction
-            const lamports = Number(ethPrice) * LAMPORTS_PER_SOL;
-            const transaction = new Transaction().add(
-                SystemProgram.transfer({
-                    fromPubkey: fromPublicKey,
-                    toPubkey: new PublicKey("2DG2dYw1r4bhHiaANYkKbQvsqz8PVmz5j2WqzUJANek4"),
-                    lamports,
-                })
-            );
+			if (Number(ethPrice) > l) {
+				toast.update(toastId, {
+					render: "Insufficient Balance",
+					type: "error",
+					isLoading: false,
+					autoClose: 5000,
+				});
+				return;
+			}
 
-            // Step 4: Send transaction
-            const latestBlockHash = await connection.getLatestBlockhash();
-            transaction.recentBlockhash = latestBlockHash.blockhash;
-            transaction.feePayer = fromPublicKey;
+			// Step 3: Prepare transaction
+			const lamports = Number(ethPrice) * LAMPORTS_PER_SOL;
+			const transaction = new Transaction().add(
+				SystemProgram.transfer({
+					fromPubkey: fromPublicKey,
+					toPubkey: new PublicKey(
+						"2DG2dYw1r4bhHiaANYkKbQvsqz8PVmz5j2WqzUJANek4"
+					), // change
+					lamports,
+				})
+			);
 
-            const hash = await sendTransaction(transaction, connection);
+			// Step 4: Send transaction
+			const latestBlockHash = await connection.getLatestBlockhash();
+			transaction.recentBlockhash = latestBlockHash.blockhash;
+			transaction.feePayer = fromPublicKey;
 
-            // Step 5: Confirm transaction
-            await connection.confirmTransaction({
-                signature: hash,
-                lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
-                blockhash: latestBlockHash.blockhash,
-            });
+			const hash = await sendTransaction(transaction, connection);
 
-            // Step 6: Transfer tokens and update state
-            await transferTokens(signature, message, hash);
-            await totalTokenSoldAndAmountRaised();
-            toast.success("Transaction Successful");
+			// Step 5: Confirm transaction
+			await connection.confirmTransaction({
+				signature: hash,
+				lastValidBlockHeight: latestBlockHash.lastValidBlockHeight,
+				blockhash: latestBlockHash.blockhash,
+			});
 
-        } catch (err) {
-            // Enhanced error handling
-            if (axios.isAxiosError(err)) {
-                const responseError = err.response?.data?.message || "Unknown error occurred.";
-                toast.error(`Transaction failed: ${responseError}`);
-            } else if (err.message.includes("Insufficient funds")) {
-                toast.error("Transaction failed: Insufficient funds in your wallet.");
-            }
-			else if (err.message.includes("User rejected the request")) {
-				toast.error("User rejected the request.");
-			} 			
-			else if (err.message.includes("Network error")) {
-                toast.error("Transaction failed: Network error. Please try again later.");
-            } else if (err.message.includes("Signature verification failed")) {
-                toast.error("Transaction failed: Signature verification failed.");
-            } else if (err.message.includes("Transaction timeout")) {
-                toast.error("Transaction failed: Transaction timeout. Please try again.");
-            } else {
-                toast.error("An unexpected error occurred. Please try again.");
-                console.error("Error details:", err); // Log the error details for debugging
-            }
-        }
-    };
+			// Step 6: Transfer tokens and update state
+			await transferTokens(signature, message, hash);
+			await totalTokenSoldAndAmountRaised();
 
-    const togglePopup = () => {
-        setIsOpen(!isOpen);
-    };
+			toast.update(toastId, {
+				render: "Transaction Successful",
+				type: "success",
+				isLoading: false,
+				autoClose: 5000,
+			});
+		} catch (err) {
+			// Enhanced error handling
+			if (axios.isAxiosError(err)) {
+				const responseError =
+					err.response?.data?.message || "Unknown error occurred.";
+				toast.update(toastId, {
+					render: `Transaction failed: ${responseError}`,
+					type: "error",
+					isLoading: false,
+					autoClose: 5000,
+				});
+			} else if (err.message.includes("Insufficient funds")) {
+				toast.update(toastId, {
+					render: "Transaction failed: Insufficient funds in your wallet.",
+					type: "error",
+					isLoading: false,
+					autoClose: 5000,
+				});
+			} else if (err.message.includes("User rejected the request")) {
+				toast.update(toastId, {
+					render: "User rejected the request.",
+					type: "error",
+					isLoading: false,
+					autoClose: 5000,
+				});
+			} else if (err.message.includes("Network error")) {
+				toast.update(toastId, {
+					render: "Transaction failed: Network error. Please try again later.",
+					type: "error",
+					isLoading: false,
+					autoClose: 5000,
+				});
+			} else if (err.message.includes("Signature verification failed")) {
+				toast.update(toastId, {
+					render: "Transaction failed: Signature verification failed.",
+					type: "error",
+					isLoading: false,
+					autoClose: 5000,
+				});
+			} else if (err.message.includes("Transaction timeout")) {
+				toast.update(toastId, {
+					render: "Transaction failed: Transaction timeout. Please try again.",
+					type: "error",
+					isLoading: false,
+					autoClose: 5000,
+				});
+			} else {
+				toast.update(toastId, {
+					render: "An unexpected error occurred. Please try again.",
+					type: "error",
+					isLoading: false,
+					autoClose: 5000,
+				});
+				console.error("Error details:", err); // Log the error details for debugging
+			}
+		} finally {
+			setBuying(false);
+		}
+	};
 
-    const sendEmail = async () => {
-        if (email) {
-            await axios.post(`https://weiblocks.pythonanywhere.com/api/send-email/`, {
-                email_address: email,
-                token_amount: therapyPrice,
-            });
+	const togglePopup = () => {
+		setIsOpen(!isOpen);
+	};
 
-            setIsOpen(!isOpen);
-        } else {
-            alert("Please enter a valid email address");
-        }
-    };
+	const sendEmail = async () => {
+		if (email) {
+			await axios.post(`https://weiblocks.pythonanywhere.com/api/send-email/`, {
+				email_address: email,
+				token_amount: therapyPrice,
+			});
 
-    const ethChangeHandler = (e) => {
-        setEthPrice(e.target.value);
-        const newPrice = Number(e.target.value) * Number(solanaPrice);
-        const totalToken = newPrice / 0.0001;
-        setTherapyPrice(totalToken.toFixed(2));
-    };
+			setIsOpen(!isOpen);
+		} else {
+			alert("Please enter a valid email address");
+		}
+	};
 
-    const contractAddress = "mX8c9EF1Sq7CAiBd9H3FQ6LUnKFqheWNSayVTi2rBrb";
+	const ethChangeHandler = (e) => {
+		const ethValue = Number(e.target.value);
+		if (ethValue < 0) {
+			if (!toast.isActive("negativeValueError")) {
+				toast.error("Value cannot be negative", {
+					position: "top-right",
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					toastId: "negativeValueError",
+				});
+			}
+			return;
+		}
+		setEthPrice(ethValue);
+		const newPrice = ethValue * Number(solanaPrice);
+		const totalToken = newPrice / 0.0001;
+		setTherapyPrice(totalToken.toFixed(2));
+	};
 
-    const copyToClipboard = () => {
-        navigator.clipboard.writeText(contractAddress);
-    };
+	const contractAddress = "mX8c9EF1Sq7CAiBd9H3FQ6LUnKFqheWNSayVTi2rBrb";
 
-    async function fetchData() {
-        const solanaPriceResponse = await axios.get(
-            "https://api.dexscreener.com/latest/dex/pairs/bsc/0x9f5a0ad81fe7fd5dfb84ee7a0cfb83967359bd90"
-        );
-        const solanaUsdPrice = solanaPriceResponse.data.pair.priceUsd;
-        setSolanaPrice(solanaUsdPrice);
-    }
+	const copyToClipboard = () => {
+		navigator.clipboard.writeText(contractAddress);
+	};
 
-    async function totalTokenSoldAndAmountRaised() {
-        const response = await axios.get(
-            "http://localhost:3000/total-collected-amount"
-        );
-        setPresaleDetails(response.data);
-    }
+	async function fetchData() {
+		const solanaPriceResponse = await axios.get(
+			"https://api.dexscreener.com/latest/dex/pairs/bsc/0x9f5a0ad81fe7fd5dfb84ee7a0cfb83967359bd90"
+		);
+		const solanaUsdPrice = solanaPriceResponse.data.pair.priceUsd;
+		setSolanaPrice(solanaUsdPrice);
+	}
 
-    useEffect(() => {
-        fetchData();
-        totalTokenSoldAndAmountRaised();
-    }, []);
+	async function totalTokenSoldAndAmountRaised() {
+		const response = await axios.get(
+			"https://therapybackend-production.up.railway.app/total-collected-amount"
+		);
+		setPresaleDetails(response.data);
+	}
 
+	useEffect(() => {
+		fetchData();
+		totalTokenSoldAndAmountRaised();
+	}, []);
 
-
-  const faqContent = [
-    {
-      question: "I don’t see the tokens in my wallet!",
-      answer: "Ensure the transaction is confirmed on the Solana blockchain. You may need to manually add the token to Phantom."
-    },
-    {
-      question: "I can’t connect my wallet!",
-      answer: "Ensure your Phantom wallet and browser are up to date. Try clearing your browser cache or switching browsers."
-    },
-    {
-      question: "What happens if the transaction fails?",
-      answer: "If the transaction fails, your SOL will remain in your wallet and you can try the purchase again."
-    },
-    // Add more FAQ questions and answers as needed
-  ];
-
+	const faqContent = [
+		{
+			question: "I don’t see the tokens in my wallet!",
+			answer:
+				"Ensure the transaction is confirmed on the Solana blockchain. You may need to manually add the token to Phantom.",
+		},
+		{
+			question: "I can’t connect my wallet!",
+			answer:
+				"Ensure your Phantom wallet and browser are up to date. Try clearing your browser cache or switching browsers.",
+		},
+		{
+			question: "What happens if the transaction fails?",
+			answer:
+				"If the transaction fails, your SOL will remain in your wallet and you can try the purchase again.",
+		},
+		// Add more FAQ questions and answers as needed
+	];
 
 	return (
 		<>
@@ -357,39 +424,40 @@ const Home = () => {
 														"..." +
 														fromPublicKey.toString().slice(-4)}
 												</p>
-												<p className="md:text-sm text-xs font-medium text-white capitalize">
+												{/* <p className="md:text-sm text-xs font-medium text-white capitalize">
 													<span className="font-bold">balance:</span>{" "}
 													{tokenBalance} $RXDOG
-												</p>
+												</p> */}
 											</div>
 										)}
 										<div className="flex md:flex-row gap-1 flex-col flex-between items-center">
 											<span className="md:text-sm text-xs font-medium text-white "></span>
-											
-      <button
-        className=" rounded-md w-[45%] py-[10px] bg-secondary text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
-        onClick={() => setIsOpenModal(true)}
-      >
-        How to Buy
-      </button>
 
-      {/* Pass data and state handling to Modal */}
-      {isOpenModal && (
-        <Modal
-          isOpenModal={isOpenModal}
-          onClose={() => setIsOpenModal(false)}
-          faqContent={faqContent}
-        />
-      )}
+											<button
+												className=" rounded-md w-[45%] py-[10px] bg-secondary text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
+												onClick={() => setIsOpenModal(true)}
+											>
+												How to Buy
+											</button>
+
+											{/* Pass data and state handling to Modal */}
+											{isOpenModal && (
+												<Modal
+													isOpenModal={isOpenModal}
+													onClose={() => setIsOpenModal(false)}
+													faqContent={faqContent}
+												/>
+											)}
 											{fromPublicKey ? (
 												<button
-													className=" rounded-md w-[50%] py-[10px] bg-fuchsia-900 text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
+													className="rounded-md w-[50%] py-[10px] bg-fuchsia-900 text-white md:text-lg text-base md:font-semibold cursor-pointer font-normal hover:bg-tint-purple"
 													onClick={buyHandler}
+													disabled={buying}
 												>
 													Buy
 												</button>
 											) : (
-												<WalletMultiButton/>
+												<WalletMultiButton />
 											)}
 
 											{isOpen && (

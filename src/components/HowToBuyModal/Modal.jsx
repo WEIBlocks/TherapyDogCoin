@@ -77,12 +77,11 @@ const Modal = ({ isOpenModal, onClose, howToBuyContent, faqContent }) => {
                   <li className="mb-4">
                     <strong>Connect Your Phantom Wallet to Our Website:</strong>
                     <ul className="list-disc ml-6">
-                      <li>Navigate to our <span onClick={onClose} className="text-blue-600 cursor-pointer underline">Presale Page</span> on TherapyDogCoin.</li>
                       <li>Click on the <strong>Connect Wallet</strong> button.</li>
                     </ul>
                   </li>
                   <li className="mb-4">
-                    <strong>Enter the Amount of TherapyDogCoin You Want to Buy:</strong>
+                    <strong>Enter the Amount of SOL:</strong>
                     <ul className="list-disc ml-6">
                       <li>Enter the desired amount and click <strong>Buy</strong>.</li>
                     </ul>
